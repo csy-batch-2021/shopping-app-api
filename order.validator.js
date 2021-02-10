@@ -2,10 +2,10 @@
 
 const { ProductDAO } = require("./product.dao");
 const { OrderDAO } = require("./order.dao");
-const { UserDAO } = require("./user.dao");
+// const { UserDAO } = require("./user.dao");
 const orderDAO = new OrderDAO();
 
-const userDAO = new UserDAO();
+// const userDAO = new UserDAO();
 const productDAO = new ProductDAO();
 
 
