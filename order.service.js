@@ -1,0 +1,66 @@
+const { OrderDAO } = require("./order.dao");
+const orderDAO = new OrderDAO();
+const { OrderValidator } = require('./order.validator');
+
+class OrderService {
+
+    //get all orders
+    async getAllOrder() {
+        try {
+            let orders = await orderDAO.findAll();
+            return orders;
+        } catch (err) {
+            throw new Error("Not able to fetch the orders");
+        }
+
+    }
+
+    // to find by order based on user id
+    async getMyOrder(userId) {
+        let myOrder = await OrderService.findMyOrder(userId);
+        return myOrder;
+    }
+    // to add a new order
+    async  addOrder(orderDetails) {
+        try {
+            OrderValidator.validCheck(orderDetails);
+            OrderValidator.isValidId(orderDetails);
+            const product = await productDAO.findOne(orderDetails.product_id);
+            orderDetails.totalAmount = orderDetails.qty * product.price;
+            orderDetails.status = "ORDERED";
+            await orderDAO.save(orderDetails);
+            console.log("Product Ordered sucessfully");
+        } catch (err) {
+            console.log(err.message);
+            throw err;
+        }
+
+    }
+
+    // to change order status delivered
+    async  changeOrderStatus(orderId, status) {
+        try {
+            await OrderValidator.statusValidCheck(orderId, status);
+            await OrderValidator.toCheckValidOrderId(orderId);
+            var result = await orderDAO.findOneAndUpdate(orderId, status);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    // to cancel order
+    async  cancelOrder(orderId) {
+        try {
+            await OrderValidator.isValidCheck(orderId);
+            await OrderValidator.isExistOrderId(orderId);
+            var result = await orderDAO.cancelOrder(orderId);
+            console.log(result);
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    }
+
+}
+
+exports.OrderService = OrderService;
