@@ -1,7 +1,14 @@
+const { ProductDAO } = require("./product.dao");
 const { OrderDAO } = require("./order.dao");
+const { UserDAO } = require("./user.dao");
 const orderDAO = new OrderDAO();
-const { OrderValidator } = require('./order.validator');
+const productDAO = new ProductDAO();
+const userDAO = new UserDAO();
 
+
+const { ProductValidator } = require("./product.validator");
+const { UserValidator } = require('./user.validator');
+const { OrderValidator } = require('./order.validator');
 class OrderService {
 
     //get all orders
@@ -17,7 +24,7 @@ class OrderService {
 
     // to find by order based on user id
     async getMyOrder(userId) {
-        let myOrder = await OrderService.findMyOrder(userId);
+        let myOrder = await orderDAO.findMyOrder(userId);
         return myOrder;
     }
     // to add a new order
@@ -40,9 +47,11 @@ class OrderService {
     // to change order status delivered
     async  changeOrderStatus(orderId, status) {
         try {
-            await OrderValidator.statusValidCheck(orderId, status);
-            await OrderValidator.toCheckValidOrderId(orderId);
+            // await OrderValidator.statusValidCheck(orderId, status);
+            await OrderValidator.isValidForDelivery(orderId, status);
+            // await OrderValidator.toCheckValidOrderId(orderId);
             var result = await orderDAO.findOneAndUpdate(orderId, status);
+            return result;
         } catch (err) {
             console.log(err.message);
         }
@@ -51,7 +60,7 @@ class OrderService {
     // to cancel order
     async  cancelOrder(orderId) {
         try {
-            await OrderValidator.isValidCheck(orderId);
+            // await OrderValidator.isValidCheck(orderId);
             await OrderValidator.isExistOrderId(orderId);
             var result = await orderDAO.cancelOrder(orderId);
             console.log(result);

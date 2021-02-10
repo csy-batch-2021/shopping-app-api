@@ -15,7 +15,7 @@ class OrderDAO {
 
     async findMyOrder(userId) {
         const result = await pool.query("select * from orders where user_id=?", [userId]);
-        return result[0][0];
+        return result[0];
     }
 
     async findOneAndUpdate(orderId, status) {

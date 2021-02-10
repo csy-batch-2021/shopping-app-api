@@ -2,10 +2,10 @@
 
 const { ProductDAO } = require("./product.dao");
 const { OrderDAO } = require("./order.dao");
-// const { UserDAO } = require("./user.dao");
+const { UserDAO } = require("./user.dao");
 const orderDAO = new OrderDAO();
 
-// const userDAO = new UserDAO();
+const userDAO = new UserDAO();
 const productDAO = new ProductDAO();
 
 
@@ -29,9 +29,9 @@ class OrderValidator {
     }
     static async   validCheck(orderDetails) {
         console.log("orderDetails", orderDetails);
-        isValidNumber(orderDetails.user_id, "Please Enter Valid User ID");
-        isValidNumber(orderDetails.product_id, "Please Enter Valid Product Id");
-        isValidNumber(orderDetails.qty, "Please Enter Valid Quantity");
+        this.isValidNumber(orderDetails.user_id, "Please Enter Valid User ID");
+        this.isValidNumber(orderDetails.product_id, "Please Enter Valid Product Id");
+        this.isValidNumber(orderDetails.qty, "Please Enter Valid Quantity");
         // if (isNumber(orderDetails.user_id)) {
 
         //     throw new Error("Please Enter Valid User ID")
@@ -60,7 +60,7 @@ class OrderValidator {
         // console.log("status", status);
         var statusText = ["ORDERED", "DELIVERED", "CANCELLED"];
         var statusCheck = statusText.includes(status);
-        console.log(statusCheck);
+        console.log("statusCheck", statusCheck);
 
         if (orderId == null || !orderId > 0) {
             throw new Error("Please Enter Valid Order ID")
@@ -73,6 +73,22 @@ class OrderValidator {
         if (orderId == null || !orderId > 0) {
             throw new Error("Please Enter Valid Product Id");
         }
+    }
+
+    static async isValidForDelivery(orderId, status) {
+        var result = await orderDAO.findOne(orderId);
+        var statusText = ["ORDERED", "DELIVERED", "CANCELLED"];
+        var statusCheck = statusText.includes(status);
+        if (!result) {
+            throw new Error("Please Entered Valid OrderId");
+        } else if (!statusCheck) {
+            throw new Error("Please Enter Valid Status");
+        } else if (result.status == "DELIVERED") {
+            throw new Error("Delivered Product cannot be Delivered");
+        } else if (result.status == "CANCELLED") {
+            throw new Error("Already Order Product has been Cancelled");
+        }
+
     }
 
     static async isExistOrderId(orderId) {
