@@ -25,7 +25,7 @@ class UserDAO {
     async save(user) {
         let role = user.role != "" && user.role != null ? user.role : "USER";
         let params = [user.name, user.email, user.password, role];
-        const sql = "insert into users (user_name,email,password,role) values ( ?,?,?,?)";
+        const sql = "insert into users (user_name,email,password,role,active) values ( ?,?,?,?,1)";
         const result = await pool.query(sql, params);
         return result[0].affectedRows;
     }
@@ -33,6 +33,12 @@ class UserDAO {
         let params = [update.newPassword, update.id];
         const sql = "update users set password = ? where id= ?";
         const result = await pool.query(sql, params);
+        return result[0].affectedRows;
+    }
+
+    async updateStatus(id, status) {
+        const sql = "update users set active= ? where id= ?";
+        const result = await pool.query(sql, [status, id]);
         return result[0].affectedRows;
     }
 

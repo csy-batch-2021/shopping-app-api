@@ -3,20 +3,44 @@ const { UserDAO } = require("./user.Dao");
 
 const userDAO = new UserDAO();
 
-let user = { name: "Raja", email: "raja@gmail.com", password: "chainsys", role: "" };
+let user = { name: "Raj", email: "raj@gmail.com", password: "chainsys", role: "" };
 
 let login = { email: "guru@gmail.com", password: "Chainsys" };
 
 let update = { id: 1, newPassword: "Chainsys" };
 
-let user_id = 1;
+let userId = 1;
+
+let status = 1;
+
+
+async function changeUserStatus(userId, status) {
+    var result = await userDAO.findOne(userId);
+    let isActive = result.active == 1;
+    if (status == isActive) {
+        throw new Error("Already record is " + (isActive ? "Active" : "Inactive"));
+    } else {
+        await userDAO.updateStatus(result.id, !result.active);
+    }
+}
 
 try {
-    userDAO.findOne(user_id).then(res => {
+    changeUserStatus(userId, status).then(res => {
+        return res;
+    }).catch(err => {
+        throw err;
+    });
+} catch (error) {
+    throw error;
+}
+
+
+try {
+    userDAO.findOne(userId).then(res => {
         if (!res) {
             throw new Error("No User Found");
         } else {
-            console.table(res);
+            // console.table(res);
             return res;
         }
     }).catch(err => {
