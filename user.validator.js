@@ -10,6 +10,9 @@ class UserValidator {
         else if (user.password == null || user.password == "" || user.password.trim() == 0) {
             throw new Error("Password Invalid");
         }
+        else if (user.role == "USER" || user.role == "ADMIN") {
+            throw new Error("Role Invalid");
+        }
     }
 
     static async isvalidEmail(login) {
