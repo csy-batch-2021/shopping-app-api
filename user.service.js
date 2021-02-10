@@ -17,7 +17,7 @@ try {
             throw new Error("No User Found");
         } else {
             console.table(res);
-            return res;
+    //        return res;
         }
     }).catch(err => {
         throw err;
@@ -30,7 +30,7 @@ try {
 
 try {
     userDAO.findAll().then(res => {
-        // console.table(res);
+        console.table(res);
         return res;
     }).catch(err => {
         throw new Error("Invaild Table");
@@ -97,9 +97,9 @@ catch (error) {
 async function passwordUpdate(update) {
     await UserValidator.updatePasswordValid(update);
 
-    let userPassword = await userDAO.updatePassword(update);
-    console.log(userPassword);
-    if (!userPassword) {
+    let rowsUpdated = await userDAO.updatePassword(update);
+    console.log(rowsUpdated);
+    if (rowsUpdated == 0) {
         throw new Error("Invaild User Id");
     } else {
         return "Password Successfully Changed"
