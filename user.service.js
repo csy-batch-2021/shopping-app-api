@@ -3,118 +3,96 @@ const { UserDAO } = require("./user.Dao");
 
 const userDAO = new UserDAO();
 
-let user = { name: "Raja", email: "raja@gmail.com", password: "chainsys", role: "" };
+class UserService {
 
-let login = { email: "guru@gmail.com", password: "Chainsys" };
-
-let update = { id: 1, newPassword: "Chainsys" };
-
-let user_id = 1;
-
-try {
-    userDAO.findOne(user_id).then(res => {
-        if (!res) {
-            throw new Error("No User Found");
-        } else {
-            console.table(res);
-    //        return res;
+    async changeUserStatus(userId, status) {
+        try {
+            let result = await userDAO.findOne(userId);
+            let isActive = result.active == 1;
+            if (status == isActive) {
+                throw new Error("Already record is " + (isActive ? "Active" : "Inactive"));
+            } else {
+                return await userDAO.updateStatus(result.id, !result.active);
+            }
+        } catch (error) {
+            throw error;
         }
-    }).catch(err => {
-        throw err;
-    });
-} catch (error) {
-    // console.log(error);
-    throw error;
-}
 
-
-try {
-    userDAO.findAll().then(res => {
-        console.table(res);
-        return res;
-    }).catch(err => {
-        throw new Error("Invaild Table");
-    });
-} catch (error) {
-    // console.log(error);
-    throw error;
-}
-
-async function registerUser(user) {
-
-    await UserValidator.validateNewUser(user);
-    let exists = await userDAO.findByEmail(user.email);
-    // console.log("Mail Exists", exists);
-    if (exists) {
-        throw new Error("Mail Already exists");
     }
-    // console.log(role)
-    return await userDAO.save(user);
-}
 
-try {
-    registerUser(user).then(response => {
-        console.log(response);
-        return "Successfully registered";
-        // console.log("Successfully registered");
-    }).catch(err => {
-        console.error(err);
-        console.log("User Registration Error Message:", err.message);
-        throw err;
-    });
-}
-catch (error) {
-    console.error(err);
-    throw error;
-}
 
-async function UserLogin(login) {
-    await UserValidator.isvalidEmail(login);
-    let usersList = await userDAO.findUser(login.email);
-    let user = usersList.some(u => u.password == login.password);
-
-    if (!user) {
-        throw new Error("Invaild User Detail");
-    } else {
-        return "Successfully Logined"
+    async findUserbyId(userId) {
+        try {
+            let result = await userDAO.findOne(userId);
+            // console.log(result);
+            if (!result) {
+                throw new Error("No User Found");
+            } else {
+                // console.table(result);
+                return result;
+            }
+        } catch (error) {
+            throw error;
+        }
     }
-}
 
-try {
-    UserLogin(login).then(res => {
-        console.log(res);
-        return res;
-    }).catch(err => {
-        // console.log(err);
-        throw err;
-    });
-}
-catch (error) {
-    // console.log(error);
-    throw error;
-}
 
-async function passwordUpdate(update) {
-    await UserValidator.updatePasswordValid(update);
-
-    let rowsUpdated = await userDAO.updatePassword(update);
-    console.log(rowsUpdated);
-    if (rowsUpdated == 0) {
-        throw new Error("Invaild User Id");
-    } else {
-        return "Password Successfully Changed"
+    async AllUsersList() {
+        try {
+            let result = await userDAO.findAll();
+            return result;
+        } catch (error) {
+            throw new Error("Invaild Table");
+        }
     }
+
+    async registerUser(user) {
+        try {
+            await UserValidator.validateNewUser(user);
+            let exists = await userDAO.findByEmail(user.email);
+            // console.log("Mail Exists", exists);
+            if (exists) {
+                throw new Error("Mail Already exists");
+            }
+            return await userDAO.save(user);
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    async userLogin(loginDetails) {
+        try {
+            await UserValidator.isvalidEmail(loginDetails);
+            let usersList = await userDAO.findUser(loginDetails.email);
+            let user = usersList.some(u => u.password == loginDetails.password);
+
+            if (!user) {
+                throw new Error("Invaild User Detail");
+            } else {
+                return "Successfully Logined"
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    async passwordUpdate(updateUserPassword) {
+        try {
+            await UserValidator.updatePasswordValid(updateUserPassword);
+            let isUserIdExists = await userDAO.findOne(updateUserPassword.id);
+            if (!isUserIdExists) {
+                throw new Error("Invaild User Id");
+            } else {
+                await userDAO.updatePassword(updateUserPassword);
+                return "Password Successfully Changed"
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
-try {
-    passwordUpdate(update).then(res => {
-        console.log(res);
-        return res;
-    }).catch(err => {
-        throw err;
-    })
-} catch (error) {
-    console.log(error);
-    throw error;
-}
-
+exports.UserService = UserService;
