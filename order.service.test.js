@@ -4,7 +4,7 @@ const orderDAO = new OrderDAO();
 const orderService = new OrderService();
 
 const orderDetails = {
-    user_id: 1, product_id: 1, qty: 1
+    userId: 1, productId: 1, qty: 1
 }
 orderService.addOrder(orderDetails).then(response => {
     console.log(response);

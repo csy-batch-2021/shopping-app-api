@@ -10,8 +10,8 @@ class ProductDAO {
 
 
     async findActive() {
-        var id = 1;
-        const result = await pool.query("select * from products where active=?", [id]);
+        var active = 1;
+        const result = await pool.query("select * from products where active=?", [active]);
         return result[0];
     }
 

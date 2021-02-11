@@ -47,7 +47,7 @@ class ProductService {
             ProductValidator.validateNewProduct(product);//to check validate the products details
             let exists = await productDAO.findOneUsingName(product);//to find and if same product and brandname product is there in db
             if (exists) {
-                throw new Error("Product and brand Name already Exists");
+                throw new Error("This Product already Exists in the given brand");
             }
             return await productDAO.save(product);
 
@@ -63,7 +63,7 @@ class ProductService {
     async  changeStatus(productId, status) {
         try {
             var result = await productDAO.findOne(productId);
-            console.log(result);
+            // console.log(result);
 
             if (result) {
                 let isActive = result.active == 1;
@@ -78,6 +78,7 @@ class ProductService {
                 //  console.log("Not able to change status");
                 //}
                 // var result = await productDAO.changeStatus(productId, status);
+                return "Product Changes Successfully";
             } else {
                 throw new Error("Please Enter valid Product ID");
             }
