@@ -19,7 +19,7 @@ class UserDAO {
 
     async findUser(email) {
         const result = await pool.query("select * from users where email=?", [email]);
-        return result[0]
+        return result[0];
     }
 
     async save(user) {

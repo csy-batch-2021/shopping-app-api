@@ -1,3 +1,7 @@
+// import { UserDAO } from "./user.dao";
+const { UserDAO } = require("./user.dao");
+const userDAO = new UserDAO();
+
 class UserValidator {
 
     static async validateNewUser(user) {
@@ -9,9 +13,6 @@ class UserValidator {
         }
         else if (user.password == null || user.password == "" || user.password.trim() == 0) {
             throw new Error("Password Invalid");
-        }
-        else if (user.role == "USER" || user.role == "ADMIN") {
-            throw new Error("Role Invalid");
         }
     }
 
@@ -35,6 +36,15 @@ class UserValidator {
             throw new Error("ID Invalid");
         }
     }
+    static async toCheckValidUserId(userId) {
+        var result = await userDAO.findOne(userId);
+
+        if (!result) {
+            throw new Error("Please Check User ID");
+        }
+    }
+
+
 
 
 }

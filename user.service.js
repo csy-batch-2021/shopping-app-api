@@ -12,7 +12,8 @@ class UserService {
             if (status == isActive) {
                 throw new Error("Already record is " + (isActive ? "Active" : "Inactive"));
             } else {
-                return await userDAO.updateStatus(result.id, !result.active);
+                await userDAO.updateStatus(result.id, !result.active);
+                return ("User Status Changed")
             }
         } catch (error) {
             throw error;
@@ -50,11 +51,16 @@ class UserService {
         try {
             await UserValidator.validateNewUser(user);
             let exists = await userDAO.findByEmail(user.email);
+            // console.log(exists)
             // console.log("Mail Exists", exists);
+            // console.log(user);
             if (exists) {
                 throw new Error("Mail Already exists");
             }
-            return await userDAO.save(user);
+            else {
+                await userDAO.save(user);
+                return ("User Added Successfully")
+            }
         } catch (error) {
             throw error;
         }
@@ -66,7 +72,6 @@ class UserService {
             await UserValidator.isvalidEmail(loginDetails);
             let usersList = await userDAO.findUser(loginDetails.email);
             let user = usersList.some(u => u.password == loginDetails.password);
-
             if (!user) {
                 throw new Error("Invaild User Detail");
             } else {
@@ -82,11 +87,12 @@ class UserService {
         try {
             await UserValidator.updatePasswordValid(updateUserPassword);
             let isUserIdExists = await userDAO.findOne(updateUserPassword.id);
-            if (!isUserIdExists) {
-                throw new Error("Invaild User Id");
-            } else {
+            // console.log(isUserIdExists)
+            if (isUserIdExists) {
                 await userDAO.updatePassword(updateUserPassword);
                 return "Password Successfully Changed"
+            } else {
+                throw new Error("Invaild User Id");
             }
         } catch (error) {
             throw error;
