@@ -17,4 +17,5 @@ app.post("/addOrder", orderController.addOrder);
 app.get("/myorders", orderController.myOrders);
 app.get("/orders", orderController.allOrders);
 app.patch("/changeorderstatus", orderController.changOrderStatus);
+app.patch("/cancelorder", orderController.cancelOrder);
 app.listen(port, () => console.log(` app listening on port ${port}!`));
