@@ -23,7 +23,7 @@ class UserRouter {
                 await userController.newUserRegistration(req, res);
             }
         } else if (url == "loginUser") {
-            if (method == "GET") {
+            if (method == "POST") {
                 await userController.loginUser(req, res);
             }
         }
