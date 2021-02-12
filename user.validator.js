@@ -30,13 +30,13 @@ class UserValidator {
 
     static async updatePasswordValid(update) {
         if (update.newPassword == null || update.newPassword == "" || update.newPassword.trim() == 0) {
-            throw new Error("Password Invalid");
+            throw new Error("Password cannot be empty");
         }
         else if (update.newPassword.length < 8) {
             throw new Error("password length should be least 8 characters");
         }
         else if (update.id == null || update.id == '') {
-            throw new Error("ID Invalid");
+            throw new Error("ID cannot be empty");
         }
     }
     static async toCheckValidUserId(userId) {
