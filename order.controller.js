@@ -1,4 +1,5 @@
 const { OrderService } = require("./order.service");
+const { OrderValidator } = require("./order.validator");
 
 class OrderController {
   constructor() {
@@ -17,6 +18,7 @@ class OrderController {
   async myOrders(req, res) {
     let userId = req.query.userId;
     try {
+      OrderValidator.isValidNumber(userId, "Please Enter Valid User ID");
       let myOrders = await OrderService.getMyOrder(userId);
       res.json(myOrders);
     } catch (err) {
