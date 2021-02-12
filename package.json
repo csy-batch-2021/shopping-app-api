@@ -1,0 +1,27 @@
+{
+  "name": "shopping-app-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "order.controller.js",
+  "dependencies": {
+    "mysql2": "^2.2.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csy-batch-2021/shopping-app-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csy-batch-2021/shopping-app-api/issues"
+  },
+  "homepage": "https://github.com/csy-batch-2021/shopping-app-api#readme"
+}
