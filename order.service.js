@@ -24,31 +24,19 @@ class OrderService {
 
     // to find by order based on user id
     async getMyOrder(userId) {
-
-        try {
-            // let result = await userDAO.findOne(userId);
-            // console.log("UserResult", result);
-
-            await UserValidator.toCheckValidUserId(userId);
-
-            let myOrder = await orderDAO.findMyOrder(userId);
-            return myOrder;
-        } catch (err) {
-            throw new Error("Please enter valid userId");
-
-        }
-
+        let myOrder = await orderDAO.findMyOrder(userId);
+        return myOrder;
     }
     // to add a new order
     async  addOrder(orderDetails) {
         try {
-            await OrderValidator.validCheck(orderDetails);
-            await OrderValidator.isValidId(orderDetails);
-            const product = await productDAO.findOne(orderDetails.productId);
+            OrderValidator.validCheck(orderDetails);
+            OrderValidator.isValidId(orderDetails);
+            const product = await productDAO.findOne(orderDetails.product_id);
             orderDetails.totalAmount = orderDetails.qty * product.price;
             orderDetails.status = "ORDERED";
             await orderDAO.save(orderDetails);
-            return "Product Ordered sucessfully";
+            console.log("Product Ordered sucessfully");
         } catch (err) {
             console.log(err.message);
             throw err;
@@ -63,10 +51,9 @@ class OrderService {
             await OrderValidator.isValidForDelivery(orderId, status);
             // await OrderValidator.toCheckValidOrderId(orderId);
             var result = await orderDAO.findOneAndUpdate(orderId, status);
-            return "Order Status Changed Successfully";
+            return result;
         } catch (err) {
             console.log(err.message);
-            throw err;
         }
     }
 
@@ -76,7 +63,7 @@ class OrderService {
             // await OrderValidator.isValidCheck(orderId);
             await OrderValidator.isExistOrderId(orderId);
             var result = await orderDAO.cancelOrder(orderId);
-            return "Order Cancelled Successfully";
+            console.log(result);
         } catch (err) {
             console.log(err);
             throw err;

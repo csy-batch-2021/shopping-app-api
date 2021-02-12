@@ -32,7 +32,7 @@ class OrderDAO {
 
     }
     async save(orders) {
-        let params = [orders.userId, orders.productId, orders.qty, orders.totalAmount, orders.status];
+        let params = [orders.user_id, orders.product_id, orders.qty, orders.totalAmount, orders.status];
         const sql = "insert into orders (user_id,product_id,qty,total_amount,status) values (?,?,?,?,?)";
         const result = await pool.query(sql, params);
         return result[0].affectedRows;

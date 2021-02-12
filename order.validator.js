@@ -28,9 +28,9 @@ class OrderValidator {
         return valid;
     }
     static async   validCheck(orderDetails) {
-        // console.log("orderDetails", orderDetails);
-        this.isValidNumber(orderDetails.userId, "Please Enter Valid User ID");
-        this.isValidNumber(orderDetails.productId, "Please Enter Valid Product Id");
+        console.log("orderDetails", orderDetails);
+        this.isValidNumber(orderDetails.user_id, "Please Enter Valid User ID");
+        this.isValidNumber(orderDetails.product_id, "Please Enter Valid Product Id");
         this.isValidNumber(orderDetails.qty, "Please Enter Valid Quantity");
         // if (isNumber(orderDetails.user_id)) {
 
@@ -45,8 +45,8 @@ class OrderValidator {
     }
 
     static async isValidId(orderDetails) {
-        var userResult = await userDAO.findOne(orderDetails.userId);
-        var productResult = await productDAO.findOne(orderDetails.productId);
+        var userResult = await userDAO.findOne(orderDetails.user_id);
+        var productResult = await productDAO.findOne(orderDetails.product_id);
 
         if (userResult == undefined) {
             throw new Error("Please Check UserID");
