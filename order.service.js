@@ -55,6 +55,7 @@ class OrderService {
       return result;
     } catch (err) {
       console.log(err.message);
+      throw err;
     }
   }
 
