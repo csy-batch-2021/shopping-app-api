@@ -26,8 +26,15 @@ class UserRouter {
             if (method == "POST") {
                 await userController.loginUser(req, res);
             }
+        } else if (url == "updateStatus") {
+            if (method == "PATCH") {
+                await userController.updateUserStatus(req, res);
+            }
         }
     }
+
+
+
 }
 
 exports.UserRouter = UserRouter;

@@ -16,7 +16,7 @@ class UserController {
         }
     }
 
-    async getAllactiveUsers(req, res) {
+    async getAllActiveUsers(req, res) {
         try {
             let activeUserList = await this.userService.activeUsers();
             res.json(activeUserList);

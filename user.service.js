@@ -7,7 +7,11 @@ class UserService {
 
     async changeUserStatus(userId, status) {
         try {
+            await UserValidator.validateStatusInput(userId, status);
             let result = await userDAO.findOne(userId);
+            if (!result) {
+                throw new Error("No User Found");
+            }
             let isActive = result.active == 1;
             if (status == isActive) {
                 throw new Error("Already record is " + (isActive ? "Active" : "Inactive"));
@@ -38,7 +42,7 @@ class UserService {
     }
 
 
-    async AllUsersList() {
+    async allUsersList() {
         try {
             let result = await userDAO.findAll();
             return result;
@@ -65,7 +69,7 @@ class UserService {
             let exists = await userDAO.findByEmail(user.email);
             // console.log(exists)
             // console.log("Mail Exists", exists);
-            // console.log(user);
+            // console.log(user.role);
             if (exists) {
                 throw new Error("Mail Already exists");
             }

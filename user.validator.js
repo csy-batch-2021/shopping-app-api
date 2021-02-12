@@ -4,6 +4,18 @@ const userDAO = new UserDAO();
 
 class UserValidator {
 
+    static async validateStatusInput(userId, status) {
+        // if (userId == null || userId == "") {
+        //     throw new Error("userId cannot be empty");
+        // }
+        if (isNaN(userId)) {
+            throw new Error("userId is not a number");
+        }
+        else if (isNaN(status)) {
+            throw new Error("Status is not a number");
+        }
+    }
+
     static async validateNewUser(user) {
         if (user.name == null || user.name == "" || user.name.trim() == 0) {
             throw new Error("Name cannot be empty");
