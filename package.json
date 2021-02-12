@@ -4,6 +4,7 @@
   "description": "",
   "main": "order.controller.js",
   "dependencies": {
+    "express": "^5.0.0-alpha.8",
     "mysql2": "^2.2.5"
   },
   "devDependencies": {
