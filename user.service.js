@@ -61,17 +61,17 @@ class UserService {
     }
   }
 
-  async registerUser(user) {
+  static async registerUser(user) {
     try {
       await UserValidator.validateNewUser(user);
-      let exists = await userDAO.findByEmail(user.email);
+      let exists = await UserDAO.findByEmail(user.email);
       // console.log(exists)
       // console.log("Mail Exists", exists);
       // console.log(user.role);
       if (exists) {
         throw new Error("Mail Already exists");
       } else {
-        await userDAO.save(user);
+        await UserDAO.save(user);
         return "User Added Successfully";
       }
     } catch (error) {
