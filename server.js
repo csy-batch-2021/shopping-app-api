@@ -15,4 +15,5 @@ app.post("/addUser", userController.newUserRegistration);
 app.get("/activeproducts", productController.getActiveProductsList);
 app.post("/addOrder", orderController.addOrder);
 app.get("/myorders", orderController.myOrders);
+app.get("/orders", orderController.allOrders);
 app.listen(port, () => console.log(` app listening on port ${port}!`));
