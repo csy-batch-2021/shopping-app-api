@@ -79,15 +79,27 @@ class UserService {
     }
   }
 
+  userRole(role) {
+    if (!role || role == "USER") {
+      return "USER";
+    } else {
+      return "ADMIN";
+    }
+  }
+
   static async userLogin(loginDetails) {
     try {
       await UserValidator.isvalidEmail(loginDetails);
       let usersList = await UserDAO.findUser(loginDetails.email);
-      let user = usersList.some((u) => u.password == loginDetails.password);
-      if (!user) {
-        throw new Error("Invaild User Detail");
+      let userRole = loginDetails.role ?? "USER";
+      let userlogin = usersList.find(
+        (u) => u.password == loginDetails.password && u.role == userRole
+      );
+      if (!userlogin) {
+        throw new Error("Invalid User Detail");
       } else {
-        return "Successfully Logined";
+        delete userlogin.password;
+        return userlogin;
       }
     } catch (error) {
       throw error;
