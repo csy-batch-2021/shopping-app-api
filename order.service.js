@@ -63,9 +63,10 @@ class OrderService {
             await OrderValidator.isValidForDelivery(orderId, status);
             // await OrderValidator.toCheckValidOrderId(orderId);
             var result = await orderDAO.findOneAndUpdate(orderId, status);
-            return result;
+            return "Order Status Changed Successfully";
         } catch (err) {
             console.log(err.message);
+            throw err;
         }
     }
 

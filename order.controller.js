@@ -32,7 +32,7 @@ class OrderController {
             let order = await this.orderService.changeOrderStatus(orderId, status);
             res.json(order)
         } catch (err) {
-            res.status(404).json({ message: err.message });
+            res.setStatus(404).json({ message: err.message });
         }
     }
 
