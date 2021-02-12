@@ -8,9 +8,15 @@ let loginDetails = { email: "ram@gmail.com", password: "chainsys" };
 
 let updateUserPassword = { id: 10, newPassword: "sschainsys" };
 
-let userId = 1;
+let userId = 10;
 
-let status = 1;
+let status = 0;
+
+// userService.activeUsers().then(res => {
+//     console.table(res);
+// }).catch(err => {
+//     console.log(err);
+// })
 
 // userService.changeUserStatus(userId, status).then(res => {
 //     // console.log(res);
@@ -53,10 +59,10 @@ let status = 1;
 // });
 
 
-userService.passwordUpdate(updateUserPassword).then(res => {
-    console.log(res);
-    // return res;
-}).catch(err => {
-    console.log(err);
-    throw err;
-});
+// userService.passwordUpdate(updateUserPassword).then(res => {
+//     console.log(res);
+//     // return res;
+// }).catch(err => {
+//     console.log(err);
+//     throw err;
+// });

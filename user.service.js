@@ -1,5 +1,5 @@
 const { UserValidator } = require("./user.validator");
-const { UserDAO } = require("./user.Dao");
+const { UserDAO } = require("./user.dao");
 
 const userDAO = new UserDAO();
 
@@ -44,6 +44,18 @@ class UserService {
             return result;
         } catch (error) {
             throw new Error("Invaild Table");
+        }
+    }
+
+
+
+    async activeUsers() {
+        try {
+            let result = await userDAO.findActiveUser();
+            console.log(result);
+            return result;
+        } catch (error) {
+            throw new Error("No Active Users");
         }
     }
 

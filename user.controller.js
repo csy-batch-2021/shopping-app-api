@@ -14,7 +14,15 @@ class UserController {
         } catch (error) {
             res.setStatus(400).json({ message: error.message });
         }
+    }
 
+    async getAllactiveUsers(req, res) {
+        try {
+            let activeUserList = await this.userService.activeUsers();
+            res.json(activeUserList);
+        } catch (error) {
+            res.setStatus(400).json({ message: error.message });
+        }
     }
 
     async findOneUser(req, res) {
