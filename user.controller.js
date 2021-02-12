@@ -39,10 +39,10 @@ class UserController {
     try {
       let user = req.body;
       console.log(user);
-      let newUser = await this.userService.registerUser(user);
+      let newUser = await UserService.registerUser(user);
       res.json(newUser);
     } catch (error) {
-      res.setStatus(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
   }
 

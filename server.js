@@ -7,4 +7,5 @@ const port = process.env.PORT || 3000;
 const userController = new UserController();
 app.get("/", (req, res) => res.send("REST API- v2"));
 app.post("/userLogin", userController.loginUser);
+app.post("/addUser", userController.newUserRegistration);
 app.listen(port, () => console.log(` app listening on port ${port}!`));
