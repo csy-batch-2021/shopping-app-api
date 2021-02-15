@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('cors');
+require('dotenv').config()
 const { OrderController } = require("./order.controller");
 const { ProductController } = require("./product.controller");
 const { UserController } = require("./user.controller");

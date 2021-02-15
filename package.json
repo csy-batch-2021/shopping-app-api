@@ -5,6 +5,7 @@
   "main": "order.controller.js",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^5.0.0-alpha.8",
     "mysql2": "^2.2.5"
   },
