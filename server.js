@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require('cors');
-require('dotenv').config()
+//require('dotenv').config()
+require('dotenv-flow').config();
 const { OrderController } = require("./order.controller");
 const { ProductController } = require("./product.controller");
 const { UserController } = require("./user.controller");
 const app = express();
 app.use(cors())
 app.use(express.json());
+console.log(process.env);
 const port = process.env.PORT || 3000;
 
 const userController = new UserController();
