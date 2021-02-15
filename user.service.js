@@ -42,9 +42,9 @@ class UserService {
     }
   }
 
-  async allUsersList() {
+  static async allUsersList() {
     try {
-      let result = await userDAO.findAll();
+      let result = await UserDAO.findAll();
       return result;
     } catch (error) {
       throw new Error("Invaild Table");

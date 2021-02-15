@@ -7,7 +7,7 @@ class UserController {
 
   async getUsersList(req, res) {
     try {
-      let usersList = await this.userService.AllUsersList();
+      let usersList = await UserService.allUsersList();
       // console.log(users);
       res.json(usersList);
     } catch (error) {
