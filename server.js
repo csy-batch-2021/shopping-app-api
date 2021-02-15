@@ -18,4 +18,5 @@ app.get("/myorders", orderController.myOrders);
 app.get("/orders", orderController.allOrders);
 app.patch("/changeorderstatus", orderController.changOrderStatus);
 app.get("/users", userController.getUsersList);
+app.get("/getActiveUsers", userController.getAllActiveUsers);
 app.listen(port, () => console.log(` app listening on port ${port}!`));

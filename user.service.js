@@ -51,10 +51,10 @@ class UserService {
     }
   }
 
-  async activeUsers() {
+  static async activeUsers() {
     try {
-      let result = await userDAO.findActiveUser();
-      console.log(result);
+      let result = await UserDAO.findActiveUser();
+      // console.log(result);
       return result;
     } catch (error) {
       throw new Error("No Active Users");
@@ -66,8 +66,6 @@ class UserService {
       await UserValidator.validateNewUser(user);
       let exists = await UserDAO.findByEmail(user.email);
       // console.log(exists)
-      // console.log("Mail Exists", exists);
-      // console.log(user.role);
       if (exists) {
         throw new Error("Mail Already exists");
       } else {
@@ -76,14 +74,6 @@ class UserService {
       }
     } catch (error) {
       throw error;
-    }
-  }
-
-  userRole(role) {
-    if (!role || role == "USER") {
-      return "USER";
-    } else {
-      return "ADMIN";
     }
   }
 
