@@ -27,7 +27,7 @@ class UserValidator {
             throw new Error("Password cannot be empty");
         }
         else if (user.password.length < 8) {
-            throw new Error("password length should be least 8 characters");
+            throw new Error("password length should be at least 8 characters");
         }
     }
 
@@ -45,7 +45,7 @@ class UserValidator {
             throw new Error("Password cannot be empty");
         }
         else if (update.newPassword.length < 8) {
-            throw new Error("password length should be least 8 characters");
+            throw new Error("password length should be at least 8 characters");
         }
         else if (update.id == null || update.id == '') {
             throw new Error("ID cannot be empty");
