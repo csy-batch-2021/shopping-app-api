@@ -1,8 +1,10 @@
 const express = require("express");
+const cors = require('cors');
 const { OrderController } = require("./order.controller");
 const { ProductController } = require("./product.controller");
 const { UserController } = require("./user.controller");
 const app = express();
+app.use(cors())
 app.use(express.json());
 const port = process.env.PORT || 3000;
 
