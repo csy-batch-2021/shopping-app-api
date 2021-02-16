@@ -28,6 +28,14 @@ class ProductRouter {
             if (method == "PATCH") {
                 await productController.changeProductStatus(req, res);
             }
+        } else if (url == "searchProducts") {
+            if (method == "POST") {
+                await productController.searchProducts(req, res);
+            }
+        } else if (url == "getOneProductDetail") {
+            if (method == "GET") {
+                await productController.getOneProductDetails(req, res);
+            }
         }
     }
 
