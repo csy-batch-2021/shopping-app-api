@@ -1,4 +1,5 @@
 const express = require("express");
+require('dotenv-flow').config();
 const { OrderController } = require("./order.controller");
 const { ProductController } = require("./product.controller");
 const { UserController } = require("./user.controller");
