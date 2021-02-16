@@ -1,3 +1,4 @@
+
 const { ProductService } = require("./product.service");
 class ProductController {
   //productService ;
@@ -10,14 +11,22 @@ class ProductController {
     res.json(products);
   }
 
+  async searchProducts(req, res) {
+    console.log("req.body", req.body)
+    let products = await ProductService.searchProducts(req.body);
+    res.json(products);
+
+  }
+  // searchProducts
   async getOneProductDetails(req, res) {
     let productId = req.query.productId;
+    console.log("productId", productId);
 
     try {
       let productDetail = await ProductService.getProductDetails(productId);
       res.json(productDetail);
     } catch (err) {
-      res.setStatus(404).json({ message: err.message });
+      res.status(404).json({ message: err.message });
     }
   }
 
@@ -32,7 +41,7 @@ class ProductController {
       let newProducts = await ProductService.addProducts(req.body);
       res.json(newProducts);
     } catch (err) {
-      res.setStatus(400).json({ message: err.message });
+      res.status(400).json({ message: err.message });
     }
   }
 

@@ -23,6 +23,7 @@ class OrderService {
   static async getMyOrder(userId) {
     let myOrder = await OrderDAO.findMyOrder(userId);
     return myOrder;
+    // console.log(myOrder);
   }
   // to add a new order
   static async addOrder(orderDetails) {
@@ -40,7 +41,6 @@ class OrderService {
       await OrderDAO.save(orderDetails);
       return "Product Ordered sucessfully";
     } catch (err) {
-      console.log(err.message);
       throw err;
     }
   }

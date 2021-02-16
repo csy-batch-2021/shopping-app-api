@@ -16,8 +16,11 @@ class OrderController {
   }
 
   async myOrders(req, res) {
-    let userId = req.query.userId;
+    let userId = req.body.userId;
+
     try {
+      console.log("userId try block", userId);
+
       OrderValidator.isValidNumber(userId, "Please Enter Valid User ID");
       let myOrders = await OrderService.getMyOrder(userId);
       res.json(myOrders);
@@ -40,15 +43,20 @@ class OrderController {
   async addOrder(req, res) {
     try {
       let orderDetails = req.body;
-      // console.log(orderDetails);
+      console.log("orderDetails", orderDetails);
       let orderedProduct = await OrderService.addOrder(orderDetails);
       res.json(orderedProduct);
     } catch (err) {
+      console.log("err.message", err.message);
       res.status(400).json({ message: err.message });
     }
   }
 
   async cancelOrder(req, res) {
+    // let orderId = req.query.orderId;
+    // console.log("orderId", orderId);
+
+
     try {
       let orderId = req.query.orderId;
       let order = await OrderService.cancelOrder(orderId);
