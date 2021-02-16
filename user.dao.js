@@ -1,7 +1,7 @@
 const pool = require("./config/db");
 
 class UserDAO {
-  constructor() {}
+  constructor() { }
   static async findAll() {
     const result = await pool.query("select * from users");
     return result[0];
@@ -31,14 +31,15 @@ class UserDAO {
     return result[0];
   }
 
-  static async save(user) {
+  static async save(user, hash) {
     let role = user.role != "" && user.role != null ? user.role : "USER";
-    let params = [user.name, user.email, user.password, role];
+    let params = [user.name, user.email, hash, role];
     const sql =
       "insert into users (user_name,email,password,role,active) values ( ?,?,?,?,1)";
     const result = await pool.query(sql, params);
     return result[0].affectedRows;
   }
+  
   static async updatePassword(update) {
     let params = [update.newPassword, update.id];
     const sql = "update users set password = ? where id= ?";

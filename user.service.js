@@ -1,5 +1,6 @@
 const { UserValidator } = require("./user.validator");
 const { UserDAO } = require("./user.dao");
+const bcrypt = require("bcrypt");
 
 class UserService {
   constructor() {
@@ -61,6 +62,7 @@ class UserService {
     }
   }
 
+
   static async registerUser(user) {
     try {
       await UserValidator.validateNewUser(user);
@@ -69,7 +71,9 @@ class UserService {
       if (exists) {
         throw new Error("Mail Already exists");
       } else {
-        await UserDAO.save(user);
+        await bcrypt.hash(user.password, 10, (err, hash) => {
+          UserDAO.save(user, hash);
+        })
         return "User Added Successfully";
       }
     } catch (error) {
@@ -81,11 +85,10 @@ class UserService {
     try {
       await UserValidator.isvalidEmail(loginDetails);
       let usersList = await UserDAO.findUser(loginDetails.email);
-      let userRole = loginDetails.role ?? "USER";
-      let userlogin = usersList.find(
-        (u) => u.password == loginDetails.password && u.role == userRole
-      );
-      if (!userlogin) {
+      let userRole = loginDetails.role != null ? loginDetails.role : "USER";
+      let userlogin = usersList.find(u => u.role == userRole);
+      let hashPassword = await bcrypt.compare(loginDetails.password, userlogin.password);
+      if (!userlogin || hashPassword == false) {
         throw new Error("Invalid User Detail");
       } else {
         delete userlogin.password;
