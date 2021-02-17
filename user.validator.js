@@ -60,7 +60,7 @@ class UserValidator {
     }
 
     static async isAdmin(req, res, next) {
-        let userId = req.body.userId;
+        let userId = req.body.loggedInUserId;
         var result = await UserDAO.findOne(userId);
         if (result) {
             if (result.role == "ADMIN") {
