@@ -14,7 +14,7 @@ class OrderRouter {
                 // console.log(res.toString());
             }
         } else if (url == "myorders") {
-            if (method == "POST") {
+            if (method == "GET") {
                 await orderController.myOrders(req, res);
             }
         } else if (url == "addneworder") {

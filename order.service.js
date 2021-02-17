@@ -46,12 +46,12 @@ class OrderService {
   }
 
   // to change order status delivered
-  static async changeOrderStatus(orderId, status) {
+  static async changeOrderStatus(orderId, status, userId) {
     try {
       // await OrderValidator.statusValidCheck(orderId, status);
       await OrderValidator.isValidForDelivery(orderId, status);
       // await OrderValidator.toCheckValidOrderId(orderId);
-      var result = await OrderDAO.findOneAndUpdate(orderId, status);
+      var result = await OrderDAO.findOneAndUpdate(orderId, status, userId);
       return result;
     } catch (err) {
       console.log(err.message);
