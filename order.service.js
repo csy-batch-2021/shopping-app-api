@@ -32,6 +32,7 @@ class OrderService {
       await OrderValidator.isValidId(orderDetails);
       const product = await ProductDAO.findOne(orderDetails.productId);
       orderDetails.totalAmount = orderDetails.qty * product.price;
+      await OrderValidator.toCheckWalletBalance(orderDetails);
       orderDetails.status = "ORDERED";
       orderDetails.created_date = new Date();
       orderDetails.modified_date = new Date();

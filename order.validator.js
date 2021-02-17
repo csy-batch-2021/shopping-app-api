@@ -91,5 +91,16 @@ class OrderValidator {
       throw new Error("Please Check Order ID");
     }
   }
+
+  static async toCheckWalletBalance(orderDetails) {
+    let wallet = await UserDAO.findOneWalletId(orderDetails.userId)
+    if (wallet.balance <= orderDetails.totalAmount) {
+      throw new Error("insufficient Wallet Balance");
+    } else {
+      let updateWalletbals = wallet.balance - orderDetails.totalAmount;
+      await UserDAO.addWalletBalance(updateWalletbals, orderDetails.userId);
+    }
+  }
+
 }
 exports.OrderValidator = OrderValidator;

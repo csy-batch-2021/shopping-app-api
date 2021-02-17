@@ -62,6 +62,19 @@ class UserService {
     }
   }
 
+  static async addBalance(bals, id) {
+    try {
+      let wallet = await UserDAO.findWalletUserId(id);
+      if (!wallet) {
+        throw new Error("User Id Not Found");
+      } else {
+        await UserDAO.addWalletBalance(bals, id);
+        return "Balance Updated";
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 
   static async registerUser(user) {
     try {
@@ -72,8 +85,11 @@ class UserService {
         throw new Error("Mail Already exists");
       } else {
         await bcrypt.hash(user.password, 10, (err, hash) => {
-          UserDAO.save(user, hash);
-        })
+          UserDAO.save(user, hash).then(res => {
+            let userID = res.insertId;
+            UserDAO.createWalletAccount(userID);
+          })
+        });
         return "User Added Successfully";
       }
     } catch (error) {
@@ -102,7 +118,7 @@ class UserService {
   async passwordUpdate(updateUserPassword) {
     try {
       await UserValidator.updatePasswordValid(updateUserPassword);
-      let isUserIdExists = await userDAO.findOne(updateUserPassword.id);
+      let isUserIdExists = await UserDAO.findOne(updateUserPassword.id);
       // console.log(isUserIdExists)
       if (isUserIdExists) {
         await userDAO.updatePassword(updateUserPassword);

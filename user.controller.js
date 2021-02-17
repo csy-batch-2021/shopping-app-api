@@ -81,6 +81,21 @@ class UserController {
       res.setStatus(400).json({ message: error.message });
     }
   }
+
+  async updateBalance(req, res) {
+    try {
+      let balance = req.body.balance;
+      let userId = req.body.userId;
+      let updatebalance = await UserService.addBalance(
+        balance,
+        userId
+      );
+      res.json(updatebalance);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
 }
 
 exports.UserController = UserController;

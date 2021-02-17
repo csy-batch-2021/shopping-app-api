@@ -31,15 +31,38 @@ class UserDAO {
     return result[0];
   }
 
+  static async findOneWalletId(id) {
+    const result = await pool.query("select * from wallet where user_id=?", [id]);
+    return result[0][0];
+  }
+
+  static async findWalletUserId(id) {
+    const result = await pool.query("select * from wallet where user_id=?", [id]);
+    return result[0][0];
+  }
+
+  static async createWalletAccount(userId) {
+    let params = [userId];
+    const sql = "insert into wallet(user_id,balance) values (?,0)";
+    const result = await pool.query(sql, params);
+    return result[0];
+  }
+
+  static async addWalletBalance(bals, id) {
+    const sql = "update wallet set balance =? where user_id =?";
+    const result = await pool.query(sql, [bals, id]);
+    return result[0];
+  }
+
   static async save(user, hash) {
     let role = user.role != "" && user.role != null ? user.role : "USER";
     let params = [user.name, user.email, hash, role];
     const sql =
       "insert into users (user_name,email,password,role,active) values ( ?,?,?,?,1)";
     const result = await pool.query(sql, params);
-    return result[0].affectedRows;
+    return result[0];
   }
-  
+
   static async updatePassword(update) {
     let params = [update.newPassword, update.id];
     const sql = "update users set password = ? where id= ?";
