@@ -101,6 +101,7 @@ class UserService {
     try {
       await UserValidator.isvalidEmail(loginDetails);
       let usersList = await UserDAO.findUser(loginDetails.email);
+      await UserValidator.isEmailExists(usersList);
       let userRole = loginDetails.role != null ? loginDetails.role : "USER";
       let userlogin = usersList.find(u => u.role == userRole);
       let hashPassword = await bcrypt.compare(loginDetails.password, userlogin.password);

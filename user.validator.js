@@ -31,6 +31,14 @@ class UserValidator {
         }
     }
 
+    static async isEmailExists(usersList) {
+        if (usersList == 0) {
+            throw new Error("Email Not Exists");
+        } else {
+            return usersList;
+        }
+    }
+
     static async isvalidEmail(login) {
         if (login.email == null || login.email == "" || login.email.trim() == 0) {
             throw new Error("Email cannot be empty");
