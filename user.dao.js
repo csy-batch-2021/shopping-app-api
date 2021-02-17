@@ -2,6 +2,7 @@ const pool = require("./config/db");
 
 class UserDAO {
   constructor() { }
+
   static async findAll() {
     const result = await pool.query("select * from users");
     return result[0];

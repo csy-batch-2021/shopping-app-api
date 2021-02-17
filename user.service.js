@@ -7,10 +7,10 @@ class UserService {
     this.userDAO = new UserDAO();
   }
 
-  async changeUserStatus(userId, status) {
+  static async changeUserStatus(userId, status) {
     try {
       await UserValidator.validateStatusInput(userId, status);
-      let result = await userDAO.findOne(userId);
+      let result = await UserDAO.findOne(userId);
       if (!result) {
         throw new Error("No User Found");
       }
@@ -20,7 +20,7 @@ class UserService {
           "Already record is " + (isActive ? "Active" : "Inactive")
         );
       } else {
-        await userDAO.updateStatus(result.id, !result.active);
+        await UserDAO.updateStatus(result.id, !result.active);
         return "User Status Changed";
       }
     } catch (error) {

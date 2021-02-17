@@ -16,6 +16,9 @@ const orderController = new OrderController();
 app.get("/", (req, res) => res.send("REST API- v2"));
 app.post("/userLogin", userController.loginUser);
 app.post("/addUser", userController.newUserRegistration);
+app.get("/UsersList", userController.getUsersList);
+app.patch("/changeUserStatus", UserValidator.isAdmin, userController.updateUserStatus);
+
 app.patch("/addBalance", UserValidator.isAdmin, userController.updateBalance);
 
 app.get("/activeproducts", productController.getActiveProductsList);

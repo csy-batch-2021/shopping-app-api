@@ -8,7 +8,6 @@ class UserController {
   async getUsersList(req, res) {
     try {
       let usersList = await UserService.allUsersList();
-      // console.log(users);
       res.json(usersList);
     } catch (error) {
       res.setStatus(400).json({ message: error.message });
@@ -59,9 +58,7 @@ class UserController {
   async userUpdatePassword(req, res) {
     try {
       let updateUserPassword = req.body;
-      let updatePassword = await this.userService.passwordUpdate(
-        updateUserPassword
-      );
+      let updatePassword = await UserService.passwordUpdate(updateUserPassword);
       res.json(updatePassword);
     } catch (error) {
       res.setStatus(400).json({ message: error.message });
@@ -72,13 +69,10 @@ class UserController {
     try {
       let userId = req.body.userId;
       let status = req.body.status;
-      let updatestatus = await this.userService.changeUserStatus(
-        userId,
-        status
-      );
+      let updatestatus = await UserService.changeUserStatus(userId, status);
       res.json(updatestatus);
     } catch (error) {
-      res.setStatus(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
   }
 
@@ -86,10 +80,7 @@ class UserController {
     try {
       let balance = req.body.balance;
       let userId = req.body.userId;
-      let updatebalance = await UserService.addBalance(
-        balance,
-        userId
-      );
+      let updatebalance = await UserService.addBalance(balance, userId);
       res.json(updatebalance);
     } catch (error) {
       res.status(400).json({ message: error.message });
