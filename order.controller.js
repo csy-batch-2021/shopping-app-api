@@ -16,7 +16,7 @@ class OrderController {
   }
 
   async myOrders(req, res) {
-    let userId = req.body.userId;
+    let userId = req.query.userId;
 
     try {
       console.log("userId try block", userId);
@@ -30,10 +30,12 @@ class OrderController {
   }
 
   async changOrderStatus(req, res) {
-    let orderId = req.query.orderId;
-    let status = req.query.status;
+    console.log(req.query);
+    let orderId = req.body.orderId;
+    let status = req.body.status;
+    let userId = req.body.userId;
     try {
-      let order = await OrderService.changeOrderStatus(orderId, status);
+      let order = await OrderService.changeOrderStatus(orderId, status, userId);
       res.json(order);
     } catch (err) {
       res.status(404).json({ message: err.message });

@@ -59,6 +59,20 @@ class UserValidator {
         }
     }
 
+    static async isAdmin(req, res, next) {
+        let userId = req.body.userId;
+        var result = await UserDAO.findOne(userId);
+        if (result) {
+            if (result.role == "ADMIN") {
+                next();
+            } else {
+                throw new Error("You are not authorsised");
+            }
+        } else {
+            throw new Error("Please Enter Valid UserID")
+        }
+    }
+
 
 
 

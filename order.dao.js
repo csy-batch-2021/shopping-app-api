@@ -12,15 +12,19 @@ class OrderDAO {
   }
 
   static async findMyOrder(userId) {
-    const result = await pool.query("select * from orders where user_id=?", [
-      userId,
-    ]);
+    // const result = await pool.query("select * from orders where user_id=?", [
+    //   userId,
+    // ]);
+
+    const result = await pool.query("select o.id,u.user_name,p.name,p.brand_name,p.price,o.qty,o.total_amount,o.status from users u, products p,orders o where o.user_id=u.id AND o.product_id=p.id AND o.user_id=?", [userId])
     return result[0];
   }
 
-  static async findOneAndUpdate(orderId, status) {
-    let params = [status, orderId];
-    const sql = "UPDATE orders SET status=? where id=?";
+
+
+  static async findOneAndUpdate(orderId, status, userId) {
+    let params = [status, userId, orderId];
+    const sql = "UPDATE orders SET status=?,modified_by=?,modified_date=Now() where id=?";
     const result = await pool.query(sql, params);
     return result[0].affectedRows;
   }
