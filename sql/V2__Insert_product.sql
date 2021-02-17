@@ -1,0 +1,1 @@
+INSERT INTO products(NAME,brand_name,price,ram,ACTIVE,created_by,modified_by) VALUES ('POCO S3','POCO',10000,4,1,1,1);
