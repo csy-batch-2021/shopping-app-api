@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cors());
 // Create Routes
 const apiRoutes = require("./app");
-app.get("/", apiRoutes);
+app.get("/api", apiRoutes);
 
 const port = process.env.PORT || 3000;
 console.log(process.env.DB_HOST);
