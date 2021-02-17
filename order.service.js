@@ -32,7 +32,6 @@ class OrderService {
       await OrderValidator.isValidId(orderDetails);
       const product = await ProductDAO.findOne(orderDetails.productId);
       orderDetails.totalAmount = orderDetails.qty * product.price;
-      await OrderValidator.toCheckWalletBalance(orderDetails);
       orderDetails.status = "ORDERED";
       orderDetails.created_date = new Date();
       orderDetails.modified_date = new Date();
@@ -47,7 +46,7 @@ class OrderService {
   }
 
   // to change order status delivered
-  static async changeOrderStatus(orderId, status, userId) {
+  static async changeOrderStatus(orderId, userId, status) {
     try {
       // await OrderValidator.statusValidCheck(orderId, status);
       await OrderValidator.isValidForDelivery(orderId, status);
@@ -61,11 +60,17 @@ class OrderService {
   }
 
   // to cancel order
-  static async cancelOrder(orderId) {
+  static async cancelOrder(orderDetails) {
     try {
-      // await OrderValidator.isValidCheck(orderId);
+      console.log("orderDetails", orderDetails);
+
+      let userId = orderDetails.userId;
+      let orderId = orderDetails.orderId;
+      await UserValidator.toCheckValidUserId(userId);
+
+      // // await OrderValidator.isValidCheck(orderId);
       await OrderValidator.isExistOrderId(orderId);
-      var result = await OrderDAO.cancelOrder(orderId);
+      var result = await OrderDAO.cancelOrder(orderDetails);
       console.log(result);
     } catch (err) {
       console.log(err);

@@ -1,3 +1,5 @@
+const { UserValidator } = require("./user.validator");
+
 const { OrderService } = require("./order.service");
 const { OrderValidator } = require("./order.validator");
 
@@ -30,12 +32,13 @@ class OrderController {
   }
 
   async changOrderStatus(req, res) {
-    console.log(req.query);
+    console.log(req.body);
+
     let orderId = req.body.orderId;
-    let status = req.body.status;
-    let userId = req.body.userId;
+    let userId = req.body.loggedInUserId;
+    let status = req.body.status
     try {
-      let order = await OrderService.changeOrderStatus(orderId, status, userId);
+      let order = await OrderService.changeOrderStatus(orderId, userId, status);
       res.json(order);
     } catch (err) {
       res.status(404).json({ message: err.message });
@@ -58,12 +61,11 @@ class OrderController {
     // let orderId = req.query.orderId;
     // console.log("orderId", orderId);
 
-
     try {
-      let orderId = req.query.orderId;
-      let order = await OrderService.cancelOrder(orderId);
+      let order = await OrderService.cancelOrder(req.body);
       res.json(order);
     } catch (err) {
+
       res.status(404).json({ message: err.message });
     }
   }

@@ -2,7 +2,8 @@ const pool = require("./config/db");
 
 class OrderDAO {
   static async findAll() {
-    const result = await pool.query("select * from orders");
+    const result = await pool.query("select o.id,u.user_name,p.name,p.brand_name,p.price,o.qty,o.total_amount,o.status from users u, products p,orders o where o.user_id=u.id AND o.product_id=p.id");
+
     return result[0];
   }
 
@@ -28,9 +29,13 @@ class OrderDAO {
     const result = await pool.query(sql, params);
     return result[0].affectedRows;
   }
-  static async cancelOrder(orderId) {
-    let params = ["CANCELLED", orderId];
-    const sql = "UPDATE orders SET status=? where id=?";
+  static async cancelOrder(orderDetails) {
+    let params = ["CANCELLED", orderDetails.userId, orderDetails.orderId];
+    console.log(params, "params");
+
+    const sql = "UPDATE orders SET status=?,modified_by=?,modified_date=now() where id=?";
+    // console.log("sql query", sql);
+
     const result = await pool.query(sql, params);
     return result[0].affectedRows;
   }

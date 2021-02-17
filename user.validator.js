@@ -52,7 +52,7 @@ class UserValidator {
         }
     }
     static async toCheckValidUserId(userId) {
-        var result = await userDAO.findOne(userId);
+        var result = await UserDAO.findOne(userId);
 
         if (!result) {
             throw new Error("Please Check User ID");
@@ -62,14 +62,19 @@ class UserValidator {
     static async isAdmin(req, res, next) {
         let userId = req.body.loggedInUserId;
         var result = await UserDAO.findOne(userId);
-        if (result) {
-            if (result.role == "ADMIN") {
-                next();
+        try {
+            if (result) {
+                if (result.role == "ADMIN") {
+                    next();
+                } else {
+                    throw new Error("You are not authorsised");
+                }
             } else {
-                throw new Error("You are not authorsised");
+                throw new Error("Please Enter Valid UserID");
             }
-        } else {
-            throw new Error("Please Enter Valid UserID")
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+
         }
     }
 

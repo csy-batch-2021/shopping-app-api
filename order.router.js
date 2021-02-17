@@ -23,11 +23,11 @@ class OrderRouter {
 
             }
         } else if (url == "cancelorder") {
-            if (method == "PATCH") {
+            if (method == "POST") {
                 await orderController.cancelOrder(req, res);
             }
         } else if (url == "changeorderstatus") {
-            if (method == "PATCH") {
+            if (method == "POST") {
                 await orderController.changOrderStatus(req, res);
             }
         }
