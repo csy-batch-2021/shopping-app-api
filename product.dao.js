@@ -40,9 +40,9 @@ class ProductDAO {
   }
 
   static async save(product) {
-    let params = [product.name, product.brandName, product.ram, product.price];
+      let params = [product.name, product.brandName, product.ram, product.price, product.created_date, product.modified_date, product.created_by, product.modified_by];
     const sql =
-      "insert into products(name,brand_name,ram,price,active) values(?,?,?,?,1)";
+      "insert into products(name,brand_name,ram,price,active,created_date,modified_date,created_by,modified_by) values(?,?,?,?,1,?,?,?,?)";
     const result = await pool.query(sql, params);
     return result[0].affectedRows;
   }
