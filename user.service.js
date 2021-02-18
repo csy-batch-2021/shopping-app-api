@@ -1,6 +1,7 @@
 const { UserValidator } = require("./user.validator");
 const { UserDAO } = require("./user.dao");
 const bcrypt = require("bcrypt");
+const validator = require("email-validator");
 
 class UserService {
   constructor() {
@@ -68,6 +69,7 @@ class UserService {
       if (!wallet) {
         throw new Error("User Id Not Found");
       } else {
+        await UserValidator.balanceValidator(bals,id);
         await UserDAO.addWalletBalance(bals, id);
         return "Balance Updated";
       }
@@ -79,8 +81,9 @@ class UserService {
   static async registerUser(user) {
     try {
       await UserValidator.validateNewUser(user);
+      let email = validator.validate(user.email);
+      await UserValidator.emailValidator(email);
       let exists = await UserDAO.findByEmail(user.email);
-      // console.log(exists)
       if (exists) {
         throw new Error("Mail Already exists");
       } else {

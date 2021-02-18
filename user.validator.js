@@ -32,6 +32,18 @@ class UserValidator {
         }
     }
 
+    static async balanceValidator(bals, id) {
+        if (bals <= 0) {
+            throw new Error("Invalid Balance Amount");
+        }
+    }
+
+    static async emailValidator(email) {
+        if (email == false) {
+            throw new Error("Invalid Email Format");
+        }
+    }
+
     static async isEmailExists(usersList) {
         if (usersList == 0) {
             throw new Error("Email Does Not Exist");
