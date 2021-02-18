@@ -40,6 +40,14 @@ class UserValidator {
         }
     }
 
+    static async isUserLoginExists(userlogin) {
+        if (!userlogin) {
+            throw new Error("Invalid User Detail");
+        } else {
+            return userlogin;
+        }
+    }
+
     static async isvalidEmail(login) {
         if (login.email == null || login.email == "" || login.email.trim() == 0) {
             throw new Error("Email cannot be empty");

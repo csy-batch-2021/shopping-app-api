@@ -100,10 +100,12 @@ class UserService {
   static async userLogin(loginDetails) {
     try {
       await UserValidator.isvalidEmail(loginDetails);
+      console.log(loginDetails)
       let usersList = await UserDAO.findUser(loginDetails.email);
       await UserValidator.isEmailExists(usersList);
       let userRole = loginDetails.role != null ? loginDetails.role : "USER";
       let userlogin = usersList.find(u => u.role == userRole);
+      await UserValidator.isUserLoginExists(userlogin);
       let hashPassword = await bcrypt.compare(loginDetails.password, userlogin.password);
       if (!userlogin || hashPassword == false) {
         throw new Error("Invalid User Detail");
