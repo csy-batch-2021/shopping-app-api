@@ -23,6 +23,7 @@ app.patch("/changeUserPassword", userController.updatePassword);
 app.patch("/addBalance", UserValidator.isAdmin, userController.updateBalance);
 
 app.get("/activeproducts", productController.getActiveProductsList);
+app.get("/getAllProducts", productController.getProducts);
 
 app.post("/searchProducts", productController.searchProducts);
 
@@ -36,6 +37,6 @@ app.patch("/changeProductStatus", productController.changeProductStatus);
 
 app.get("/myorders", orderController.myOrders);
 app.get("/orders", orderController.allOrders);
-app.patch("/changeorderstatus", UserValidator.isAdmin, orderController.changOrderStatus);
-app.patch("/cancelorder", orderController.cancelOrder);
+app.post("/changeorderstatus", UserValidator.isAdmin, orderController.changOrderStatus);
+app.post("/cancelorder", orderController.cancelOrder);
 app.listen(port, () => console.log(` app listening on port ${port}!`));
