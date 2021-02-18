@@ -2,7 +2,7 @@ const pool = require("./config/db");
 
 class OrderDAO {
   static async findAll() {
-    const result = await pool.query("select o.id,u.user_name,p.name,p.brand_name,p.price,o.qty,o.total_amount,o.status from users u, products p,orders o where o.user_id=u.id AND o.product_id=p.id");
+    const result = await pool.query("select o.id,u.user_name,p.name,p.brand_name,p.price,o.qty,o.total_amount,o.status,o.created_date,o.modified_date from users u, products p,orders o where o.user_id=u.id AND o.product_id=p.id");
 
     return result[0];
   }
