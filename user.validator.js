@@ -1,5 +1,6 @@
 // import { UserDAO } from "./user.dao";
 const { UserDAO } = require("./user.dao");
+const bcrypt = require("bcrypt");
 const userDAO = new UserDAO();
 
 class UserValidator {
@@ -33,7 +34,7 @@ class UserValidator {
 
     static async isEmailExists(usersList) {
         if (usersList == 0) {
-            throw new Error("Email Not Exists");
+            throw new Error("Email Does Not Exist");
         } else {
             return usersList;
         }
@@ -51,6 +52,9 @@ class UserValidator {
     static async updatePasswordValid(update) {
         if (update.newPassword == null || update.newPassword == "" || update.newPassword.trim() == 0) {
             throw new Error("Password cannot be empty");
+        }
+        else if (update.oldPassword == null || update.oldPassword == "" || update.oldPassword.trim() == 0) {
+            throw new Error("oldPassword cannot be empty");
         }
         else if (update.newPassword.length < 8) {
             throw new Error("password length should be at least 8 characters");
@@ -75,7 +79,7 @@ class UserValidator {
                 if (result.role == "ADMIN") {
                     next();
                 } else {
-                    throw new Error("You are not authorsised");
+                    throw new Error("You Are Not Authorized");
                 }
             } else {
                 throw new Error("Please Enter Valid UserID");
@@ -86,7 +90,23 @@ class UserValidator {
         }
     }
 
+    static async isUserExists(isUserIdExists) {
+        if (!isUserIdExists) {
+            throw new Error("Please Enter Valid UserID");
+        } else {
+            return isUserIdExists;
+        }
+    }
 
+    static async passwordMatch(hashPassword, updateUserPassword) {
+        if (hashPassword == false) {
+            throw new Error("Old Password Incorrect")
+        } else {
+            await bcrypt.hash(updateUserPassword.newPassword, 10, (err, hash) => {
+                UserDAO.updatePassword(hash, updateUserPassword);
+            });
+        }
+    }
 
 
 }

@@ -55,13 +55,13 @@ class UserController {
     }
   }
 
-  async userUpdatePassword(req, res) {
+  async updatePassword(req, res) {
     try {
       let updateUserPassword = req.body;
       let updatePassword = await UserService.passwordUpdate(updateUserPassword);
       res.json(updatePassword);
     } catch (error) {
-      res.setStatus(400).json({ message: error.message });
+      res.status(400).json({ message: error.message });
     }
   }
 

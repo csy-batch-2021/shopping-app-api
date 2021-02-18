@@ -116,21 +116,21 @@ class UserService {
     }
   }
 
-  async passwordUpdate(updateUserPassword) {
+
+  static async passwordUpdate(updateUserPassword) {
     try {
+      // console.log(updateUserPassword, "passs")
       await UserValidator.updatePasswordValid(updateUserPassword);
       let isUserIdExists = await UserDAO.findOne(updateUserPassword.id);
-      // console.log(isUserIdExists)
-      if (isUserIdExists) {
-        await userDAO.updatePassword(updateUserPassword);
-        return "Password Successfully Changed";
-      } else {
-        throw new Error("Invaild User Id");
-      }
+      await UserValidator.isUserExists(isUserIdExists)
+      let hashPassword = await bcrypt.compare(updateUserPassword.oldPassword, isUserIdExists.password);
+      await UserValidator.passwordMatch(hashPassword, updateUserPassword);
+      return "Password Successfully Changed";
     } catch (error) {
       throw error;
     }
   }
+
 }
 
 exports.UserService = UserService;
