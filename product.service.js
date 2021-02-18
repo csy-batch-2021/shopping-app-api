@@ -60,7 +60,7 @@ class ProductService {
         console.log("productValues", product);
         return await ProductDAO.save(product);
       } else {
-        throw new Error("User Cannot Be add a Product");
+        throw new Error("You Are Not Authorized");
       }
     } catch (err) {
       console.log(err.message);
