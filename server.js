@@ -17,10 +17,14 @@ app.get("/", (req, res) => res.send("REST API- v2"));
 app.post("/api/userLogin", userController.loginUser);
 app.post("/api/addUser", userController.newUserRegistration);
 app.get("/api/UsersList", userController.getUsersList);
-app.patch("/api/changeUserStatus", UserValidator.isAdmin, userController.updateUserStatus);
-app.patch("/api/changeUserPassword", userController.updatePassword);
+app.get("/api/userLists", userController.userLists);
 
-app.patch("/api/addBalance", UserValidator.isAdmin, userController.updateBalance);
+app.patch("/api/changeUserStatus", UserValidator.isAdmin, userController.updateUserStatus);
+app.put("/api/changeUserPassword", userController.updatePassword);
+
+app.put("/api/walletBalance", userController.wallet);
+
+app.put("/api/addBalance", UserValidator.isAdmin, userController.updateBalance);
 
 app.get("/api/activeproducts", productController.getActiveProductsList);
 app.get("/api/getAllProducts", productController.getProducts);
