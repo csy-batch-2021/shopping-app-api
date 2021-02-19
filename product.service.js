@@ -1,5 +1,7 @@
 
+
 const { ProductDAO } = require("./product.dao");
+const { ProductRatingDAO } = require("./product.rating.dao");
 
 const { UserDAO } = require("./user.dao");
 const { ProductValidator } = require("./product.validator");
@@ -102,7 +104,24 @@ class ProductService {
     }
   }
 
+  static async addProductRating(productRatingDetails) {
+    console.log("productRatingDetails", productRatingDetails);
 
+    try {
+      await UserValidator.toCheckValidUserId(productRatingDetails.userId);
+      await ProductValidator.toCheckValidProductId(productRatingDetails.productId);
+      productRatingDetails.created_by = productRatingDetails.userId;
+      productRatingDetails.modified_by = productRatingDetails.userId;
+      // productRatingsDetails.
+      let result = await ProductRatingDAO.save(productRatingDetails);
+      return result;
+
+    } catch (err) {
+      console.log(err);
+      throw err;
+
+    }
+  }
   // // to add a new product
   // static async addProducts(product) {
   //   try {

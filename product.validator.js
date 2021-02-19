@@ -1,3 +1,4 @@
+const { ProductDAO } = require("./product.dao");
 class ProductValidator {
     static validateNewProduct(product) {
         if (product.name == null || product.name.trim().length == 0) {
@@ -10,6 +11,14 @@ class ProductValidator {
             throw new Error("please enter validate Price");
         }
     }
+    static async toCheckValidProductId(productId) {
+        var result = await ProductDAO.findOne(productId);
+
+        if (!result) {
+            throw new Error("Please Check Product ID");
+        }
+    }
+
 }
 
 exports.ProductValidator = ProductValidator;

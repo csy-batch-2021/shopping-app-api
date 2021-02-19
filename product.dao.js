@@ -7,7 +7,7 @@ class ProductDAO {
 
   static async findActive() {
     var id = 1;
-    const result = await pool.query("select * from products where active=?", [
+    const result = await pool.query("select p.*,(select round(avg(r.rating)) from  product_ratings r where product_id=p.id)as rating from products p  where active=?", [
       id,
     ]);
     return result[0];
@@ -40,7 +40,7 @@ class ProductDAO {
   }
 
   static async save(product) {
-      let params = [product.name, product.brandName, product.ram, product.price, product.created_date, product.modified_date, product.created_by, product.modified_by];
+    let params = [product.name, product.brandName, product.ram, product.price, product.created_date, product.modified_date, product.created_by, product.modified_by];
     const sql =
       "insert into products(name,brand_name,ram,price,active,created_date,modified_date,created_by,modified_by) values(?,?,?,?,1,?,?,?,?)";
     const result = await pool.query(sql, params);

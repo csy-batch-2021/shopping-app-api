@@ -37,6 +37,13 @@ class ProductRouter {
                 await productController.getOneProductDetails(req, res);
             }
         }
+        else if (url == "addProductRating") {
+            if (method == "POST") {
+                await productController.addProductRating(req, res);
+            }
+        }
+
+        
     }
 
 

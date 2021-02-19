@@ -45,6 +45,20 @@ class ProductController {
     }
   }
 
+
+  async addProductRating(req, res) {
+    try {
+      let productsRating = await ProductService.addProductRating(req.body);
+      res.json(productsRating);
+
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ message: err.message });
+
+    }
+
+  }
+
   async changeProductStatus(req, res) {
     let productId = req.body.productId;
     let status = req.body.status;
