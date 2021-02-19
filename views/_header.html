@@ -17,6 +17,9 @@
                     <a class="nav-link" href="allproducts.html">All Products</a>
                 </li>
                 <li class="nav-item" data-loggedin="true">
+                    <a class="nav-link" href="userList.html">Users</a>
+                </li>
+                <li class="nav-item" data-loggedin="true">
                     <a class="nav-link" href="orders.html">Orders</a>
                 </li>
                 <li class="nav-item" data-loggedin="true">
@@ -33,6 +36,9 @@
                 <li class="nav-item" data-loggedin="false">
                     <a class="nav-link" href="adminRegister.html">Admin Register</a>
                 </li>
+                <li class="nav-item" data-loggedin="true">
+                    <a class="nav-link" href="wallet.html" id="wallet">Wallet </a>
+                </li>
                 <li class="nav-item  " data-loggedin="true">
                     <a class="nav-link" href="" style="display: block;" id="userdetail">Welcome </a>
                 </li>
@@ -48,6 +54,7 @@
     const user = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
     console.log("LOGGED_IN_USER", user);
     if (user) {
+        $("#userdetail").html("Welcome " + user.user_name + "(" + user.id + ")");
         console.log("User is logged in");
         // Hide menus which has data-loggedin=false
         // Show menus which has data-loggedin=true
@@ -70,4 +77,23 @@
 
         window.location.href = "login.html";
     }
+
+    function loadWalletBalance() {
+        let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+        if (loggedInUser) {
+
+            let userId = { loggedInUserId: loggedInUser.id }
+            // console.log(userId, "ssss");
+            let url = "https://shopping-app-rest-api.herokuapp.com/api/walletBalance";
+            // let url = "http://localhost:3000/api/walletBalance";
+            axios.put(url, userId).then(response => {
+                let walletBalance = response.data.balance;
+                document.querySelector("#wallet").innerHTML += "Rs." + walletBalance;
+            });
+        }
+    }
+
+    loadWalletBalance();
+
+
 </script>

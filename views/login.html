@@ -89,6 +89,7 @@
                 localStorage.setItem("LOGGED_IN_USER", JSON.stringify(userData));
                 // document.querySelector("#message").innerHTML = "Successfully LoggedIn";
                 toastr.success("Successfully LoggedIn");
+                loadWalletBalance();
                 if (userData.role == "ADMIN") {
 
                     window.location.href = "orders.html";
