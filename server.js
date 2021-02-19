@@ -10,10 +10,20 @@ app.use(express.json());
 app.use(cors());
 const port = process.env.PORT || 3000;
 
+// set the view engine to ejs
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+app.use("/", express.static(__dirname + "/views/"));
+
+// index page
+app.get("/", function (req, res) {
+  res.render("index");
+});
+
 const userController = new UserController();
 const productController = new ProductController();
 const orderController = new OrderController();
-app.get("/", (req, res) => res.send("REST API- v2"));
+app.get("/api", (req, res) => res.send("REST API- v2"));
 app.post("/api/userLogin", userController.loginUser);
 app.post("/api/addUser", userController.newUserRegistration);
 app.get("/api/UsersList", userController.getUsersList);
@@ -39,7 +49,7 @@ app.post("/api/addOrder", orderController.addOrder);
 app.post("/api/addNewProducts", productController.addNewProducts);
 
 app.get("/api/getOneProductDetail", productController.getOneProductDetails);
-app.patch(
+app.post(
   "/api/changeProductStatus",
   UserValidator.isAdmin,
   productController.changeProductStatus

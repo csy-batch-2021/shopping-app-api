@@ -63,7 +63,7 @@ class UserValidator {
 
   static async nameValidator(name) {
     var regularExpression = /^[a-zA-Z]+$/;
-    var valid = regularExpression.test(password);
+    var valid = regularExpression.test(name);
     if (valid == false) {
       throw new Error("Name Must Contain Characters Only");
     }
