@@ -93,7 +93,7 @@ class OrderValidator {
   }
 
   static async toCheckWalletBalance(orderDetails) {
-    let wallet = await UserDAO.findOneWalletId(orderDetails.userId);
+    let wallet = await UserDAO.findWalletUserId(orderDetails.userId);
     if (wallet.balance <= orderDetails.totalAmount) {
       throw new Error("insufficient Wallet Balance");
     } else {
