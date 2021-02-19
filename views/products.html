@@ -36,15 +36,7 @@
                 Filter:
                 <form>
                     <label>Brand Name</label>
-                    <br />
-                    <input type="checkbox" id="brandNames" name="brandNames" value="Samsung">
-                    <br />
-                    <input type="checkbox" name="brandNames" value="Apple"> Apple
-                    <br />
-                    <input type="checkbox" name="brandNames" value="Nokia"> Nokia
-                    <br />
-                    <input type="checkbox" name="brandNames" value="POCO"> POCO
-                    <br />
+                    <div id="brandName"></div>
                     <button id="searchBtn"> Search </button>
                 </form>
             </div>
@@ -75,6 +67,19 @@
     </div>
 
     <script>
+
+        function displayFilter(products) {
+            let brandNames = products.map(p => p.brand_name);
+
+            let brandNameStr = "";
+            for (let brand of brandNames) {
+                brandNameStr += ` <input type="checkbox" id="brandNames" name="brandNames" value=${brand}> ${brand} <br/>`;
+
+            }
+
+            document.querySelector("#brandName").innerHTML = brandNameStr;
+
+        }
 
         //Display the product details  in a table
         function displayProducts(products) {
@@ -161,7 +166,9 @@
             // let url = "http://localhost:3000/api/activeproducts";
             let url = "https://shopping-app-rest-api.herokuapp.com/api/activeproducts";
             axios.get(url).then(response => {
-                // console.table(response.data);
+                console.table(response.data);
+
+                displayFilter(response.data);
                 displayProducts(response.data);
             });
         }
