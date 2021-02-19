@@ -63,13 +63,29 @@ class UserService {
     }
   }
 
+
+  static async walletBalance(userId) {
+    try {
+      let result = await UserDAO.findWalletUserId(userId);
+      if (!result) {
+        throw new Error("Invalid User Detail");
+      } else {
+        return result;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+
   static async addBalance(bals, id) {
     try {
+      await UserValidator.balanceValidator1(bals, id);
       let wallet = await UserDAO.findWalletUserId(id);
       if (!wallet) {
         throw new Error("User Id Not Found");
       } else {
-        await UserValidator.balanceValidator(bals,id);
+        await UserValidator.balanceValidator(bals, id);
         await UserDAO.addWalletBalance(bals, id);
         return "Balance Updated";
       }
@@ -82,7 +98,9 @@ class UserService {
     try {
       await UserValidator.validateNewUser(user);
       let email = validator.validate(user.email);
+      await UserValidator.nameValidator(user.name);
       await UserValidator.emailValidator(email);
+      await UserValidator.passwordValidator(user.password);
       let exists = await UserDAO.findByEmail(user.email);
       if (exists) {
         throw new Error("Mail Already exists");
@@ -135,6 +153,13 @@ class UserService {
       throw error;
     }
   }
+
+
+  static async userLists() {
+    let userList = await UserDAO.userFullList();
+    return userList;
+  }
+
 
 }
 

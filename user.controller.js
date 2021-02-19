@@ -65,6 +65,16 @@ class UserController {
     }
   }
 
+  async wallet(req, res) {
+    try {
+      let userId = req.body.loggedInUserId;
+      let walletBals = await UserService.walletBalance(userId);
+      res.json(walletBals);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  }
+
   async updateUserStatus(req, res) {
     try {
       let userId = req.body.userId;
@@ -86,6 +96,17 @@ class UserController {
       res.status(400).json({ message: error.message });
     }
   }
+
+
+  async userLists(req, res) {
+    try {
+      let userLists = await UserService.userLists();
+      res.json(userLists);
+    } catch (err) {
+      res.status(404).json({ message: err.message });
+    }
+  }
+
 
 }
 

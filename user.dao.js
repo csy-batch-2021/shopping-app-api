@@ -32,14 +32,14 @@ class UserDAO {
     return result[0];
   }
 
-  static async findOneWalletId(id) {
+  static async findWalletUserId(id) {
     const result = await pool.query("select * from wallet where user_id=?", [id]);
     return result[0][0];
   }
 
-  static async findWalletUserId(id) {
-    const result = await pool.query("select * from wallet where user_id=?", [id]);
-    return result[0][0];
+  static async userFullList() {
+    const result = await pool.query("select w.user_id,user_name,email,role,balance from users u join wallet w on (w.id = u.id)");
+    return result[0];
   }
 
   static async createWalletAccount(userId) {

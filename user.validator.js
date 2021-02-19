@@ -17,9 +17,26 @@ class UserValidator {
         }
     }
 
+
+    static async balanceValidator1(bals, id) {
+        if (id == null || id == "" || id.trim() == 0) {
+            throw new Error("UserId cannot be empty");
+        }
+        else if (bals == null || bals == "" || bals.trim() == 0) {
+            throw new Error("Balance cannot be empty");
+        }
+        else if (isNaN(id)) {
+            throw new Error("UserId is not a number");
+        }
+    }
+
+
     static async validateNewUser(user) {
         if (user.name == null || user.name == "" || user.name.trim() == 0) {
             throw new Error("Name cannot be empty");
+        }
+        else if (user.name.length < 3) {
+            throw new Error("Name should be at least 3 characters");
         }
         else if (user.email == null || user.email == "" || user.email.trim() == 0) {
             throw new Error("Email cannot be empty");
@@ -35,6 +52,32 @@ class UserValidator {
     static async balanceValidator(bals, id) {
         if (bals <= 0) {
             throw new Error("Invalid Balance Amount");
+        }
+    }
+
+    static async passwordValidator(password) {
+        if (password == /^[A-Z]+$/ || password == /^[a-z]+$/) {
+            throw new Error("Password Must Contain Characters Only");
+            console.log("done")
+        }
+        else {
+            console.log("111")
+        }
+    }
+
+    static async passwordValidator(password) {
+        let regularExpression = /^[a-zA-Z0-9]+$/;
+        let valid = regularExpression.test(password);
+        if (valid == false) {
+            throw new Error("Password Should Contain Alphanumeric Characters Only");
+        }
+    }
+
+    static async nameValidator(name) {
+        var regularExpression = /^[a-zA-Z]+$/;
+        var valid = regularExpression.test(password);
+        if (valid == false) {
+            throw new Error("Name Must Contain Characters Only");
         }
     }
 
