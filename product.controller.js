@@ -46,8 +46,11 @@ class ProductController {
   }
 
   async changeProductStatus(req, res) {
-    let productId = req.query.productId;
-    let status = req.query.status;
+    let productId = req.body.productId;
+    let status = req.body.status;
+    console.log("ProductId", productId);
+    console.log("status", status);
+
     try {
       let changedProduct = await ProductService.changeStatus(productId, status);
       res.json(changedProduct);

@@ -11,7 +11,9 @@ class OrderController {
   async allOrders(req, res) {
     try {
       let orders = await OrderService.getAllOrder();
-      res.json(orders);
+      const allOrdersList = orders.sort((a, b) => b.created_date - a.created_date);
+
+      res.json(allOrdersList);
     } catch (err) {
       res.status(404).json({ message: err.message });
     }
@@ -25,7 +27,10 @@ class OrderController {
 
       OrderValidator.isValidNumber(userId, "Please Enter Valid User ID");
       let myOrders = await OrderService.getMyOrder(userId);
-      res.json(myOrders);
+      const myOrdersList = myOrders.sort((a, b) => b.created_date - a.created_date);
+
+      // console.log("myOrdersList", myOrdersList);
+      res.json(myOrdersList);
     } catch (err) {
       res.status(404).json({ message: err.message });
     }
@@ -58,8 +63,8 @@ class OrderController {
   }
 
   async cancelOrder(req, res) {
-    // let orderId = req.query.orderId;
-    // console.log("orderId", orderId);
+    let orderId = req.body.orderId;
+
 
     try {
       let order = await OrderService.cancelOrder(req.body);
