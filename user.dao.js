@@ -64,8 +64,8 @@ class UserDAO {
     return result[0];
   }
 
-  static async updatePassword(hash, update) {
-    let params = [hash, update.id];
+  static async updatePassword(hash, userId) {
+    let params = [hash, userId];
     const sql = "update users set password = ? where id= ?";
     const result = await pool.query(sql, params);
     return result[0].affectedRows;

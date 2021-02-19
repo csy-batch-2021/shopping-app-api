@@ -102,19 +102,19 @@ class UserValidator {
         }
     }
 
-    static async updatePasswordValid(update) {
-        if (update.newPassword == null || update.newPassword == "" || update.newPassword.trim() == 0) {
+    static async updatePasswordValid(oldPassword, newPassword) {
+        if (newPassword == null || newPassword == "" || newPassword.trim() == 0) {
             throw new Error("New Password cannot be empty");
         }
-        else if (update.oldPassword == null || update.oldPassword == "" || update.oldPassword.trim() == 0) {
+        else if (oldPassword == null || oldPassword == "" || oldPassword.trim() == 0) {
             throw new Error("oldPassword cannot be empty");
         }
-        else if (update.newPassword.length < 8) {
+        else if (newPassword.length < 8) {
             throw new Error("password length should be at least 8 characters");
         }
-        else if (update.id == null || update.id == '') {
-            throw new Error("ID cannot be empty");
-        }
+        // else if (userId == null || userId == '') {
+        //     throw new Error("ID cannot be empty");
+        // }
     }
 
     static async toCheckValidUserId(userId) {
@@ -152,12 +152,12 @@ class UserValidator {
         }
     }
 
-    static async passwordMatch(hashPassword, updateUserPassword) {
+    static async passwordMatch(hashPassword, userId, newPassword) {
         if (hashPassword == false) {
             throw new Error("Old Password Incorrect")
         } else {
-            await bcrypt.hash(updateUserPassword.newPassword, 10, (err, hash) => {
-                UserDAO.updatePassword(hash, updateUserPassword);
+            await bcrypt.hash(newPassword, 10, (err, hash) => {
+                UserDAO.updatePassword(hash, userId);
             });
         }
     }

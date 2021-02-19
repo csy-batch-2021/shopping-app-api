@@ -140,15 +140,16 @@ class UserService {
   }
 
 
-  static async passwordUpdate(updateUserPassword) {
+  static async passwordUpdate(userId, oldPassword, newPassword) {
     try {
       // console.log(updateUserPassword, "passs")
-      await UserValidator.updatePasswordValid(updateUserPassword);
-      await UserValidator.passwordValidator(updateUserPassword.newPassword)
-      let isUserIdExists = await UserDAO.findOne(updateUserPassword.id);
+      console.log(oldPassword, newPassword)
+      await UserValidator.updatePasswordValid(oldPassword, newPassword);
+      await UserValidator.passwordValidator(newPassword)
+      let isUserIdExists = await UserDAO.findOne(userId);
       await UserValidator.isUserExists(isUserIdExists)
-      let hashPassword = await bcrypt.compare(updateUserPassword.oldPassword, isUserIdExists.password);
-      await UserValidator.passwordMatch(hashPassword, updateUserPassword);
+      let hashPassword = await bcrypt.compare(oldPassword, isUserIdExists.password);
+      await UserValidator.passwordMatch(hashPassword, userId, newPassword);
       return "Password Successfully Changed";
     } catch (error) {
       throw error;
