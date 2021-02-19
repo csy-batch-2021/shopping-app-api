@@ -1,10 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-require('dotenv-flow').config();
-const { OrderController } = require("./order.controller");
-const { ProductController } = require("./product.controller");
-const { UserController } = require("./user.controller");
-const { UserValidator } = require("./user.validator");
+require("dotenv-flow").config();
+const { OrderController } = require("./api/controller/order.controller");
+const { ProductController } = require("./api/controller/product.controller");
+const { UserController } = require("./api/controller/user.controller");
+const { UserValidator } = require("./api/validator/user.validator");
 const app = express();
 app.use(express.json());
 app.use(cors());
@@ -19,7 +19,11 @@ app.post("/api/addUser", userController.newUserRegistration);
 app.get("/api/UsersList", userController.getUsersList);
 app.get("/api/userLists", userController.userLists);
 
-app.patch("/api/changeUserStatus", UserValidator.isAdmin, userController.updateUserStatus);
+app.patch(
+  "/api/changeUserStatus",
+  UserValidator.isAdmin,
+  userController.updateUserStatus
+);
 app.put("/api/changeUserPassword", userController.updatePassword);
 
 app.put("/api/walletBalance", userController.wallet);
@@ -34,14 +38,20 @@ app.post("/api/searchProducts", productController.searchProducts);
 app.post("/api/addOrder", orderController.addOrder);
 app.post("/api/addNewProducts", productController.addNewProducts);
 
-
 app.get("/api/getOneProductDetail", productController.getOneProductDetails);
-app.patch("/api/changeProductStatus", UserValidator.isAdmin, productController.changeProductStatus);
+app.patch(
+  "/api/changeProductStatus",
+  UserValidator.isAdmin,
+  productController.changeProductStatus
+);
 app.post("/api/addProductRating", productController.addProductRating);
-
 
 app.get("/api/myorders", orderController.myOrders);
 app.get("/api/orders", orderController.allOrders);
-app.post("/api/changeorderstatus", UserValidator.isAdmin, orderController.changOrderStatus);
+app.post(
+  "/api/changeorderstatus",
+  UserValidator.isAdmin,
+  orderController.changOrderStatus
+);
 app.post("/api/cancelorder", orderController.cancelOrder);
 app.listen(port, () => console.log(` app listening on port ${port}!`));
