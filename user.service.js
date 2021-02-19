@@ -144,6 +144,7 @@ class UserService {
     try {
       // console.log(updateUserPassword, "passs")
       await UserValidator.updatePasswordValid(updateUserPassword);
+      await UserValidator.passwordValidator(updateUserPassword.newPassword)
       let isUserIdExists = await UserDAO.findOne(updateUserPassword.id);
       await UserValidator.isUserExists(isUserIdExists)
       let hashPassword = await bcrypt.compare(updateUserPassword.oldPassword, isUserIdExists.password);

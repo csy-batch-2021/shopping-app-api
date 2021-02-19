@@ -56,16 +56,6 @@ class UserValidator {
     }
 
     static async passwordValidator(password) {
-        if (password == /^[A-Z]+$/ || password == /^[a-z]+$/) {
-            throw new Error("Password Must Contain Characters Only");
-            console.log("done")
-        }
-        else {
-            console.log("111")
-        }
-    }
-
-    static async passwordValidator(password) {
         let regularExpression = /^[a-zA-Z0-9]+$/;
         let valid = regularExpression.test(password);
         if (valid == false) {
@@ -114,7 +104,7 @@ class UserValidator {
 
     static async updatePasswordValid(update) {
         if (update.newPassword == null || update.newPassword == "" || update.newPassword.trim() == 0) {
-            throw new Error("Password cannot be empty");
+            throw new Error("New Password cannot be empty");
         }
         else if (update.oldPassword == null || update.oldPassword == "" || update.oldPassword.trim() == 0) {
             throw new Error("oldPassword cannot be empty");
@@ -126,6 +116,7 @@ class UserValidator {
             throw new Error("ID cannot be empty");
         }
     }
+
     static async toCheckValidUserId(userId) {
         var result = await UserDAO.findOne(userId);
 
