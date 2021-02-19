@@ -33,6 +33,7 @@ app.post("/api/addNewProducts", productController.addNewProducts);
 
 app.get("/api/getOneProductDetail", productController.getOneProductDetails);
 app.patch("/api/changeProductStatus", UserValidator.isAdmin, productController.changeProductStatus);
+app.post("/api/addProductRating", productController.addProductRating);
 
 
 app.get("/api/myorders", orderController.myOrders);
