@@ -55,6 +55,8 @@ app.post(
   productController.changeProductStatus
 );
 app.post("/api/addProductRating", productController.addProductRating);
+app.get("/api/getProgressProductsCount", productController.getProgressProductCount);
+
 
 app.get("/api/myorders", orderController.myOrders);
 app.get("/api/orders", orderController.allOrders);
@@ -64,4 +66,10 @@ app.post(
   orderController.changOrderStatus
 );
 app.post("/api/cancelorder", orderController.cancelOrder);
+
+app.get("/api/orderStatusCount", orderController.myOrdersCount);
+app.get("/api/orderReport", orderController.orderReport);
+app.get("/api/productReport", productController.productReport);
+app.get("/api/orderStatusReport", orderController.orderStatusReport);
+
 app.listen(port, () => console.log(` app listening on port ${port}!`));
