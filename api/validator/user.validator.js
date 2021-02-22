@@ -21,7 +21,7 @@ class UserValidator {
       throw new Error("UserId cannot be empty");
     } else if (isNaN(id) || id.trim() == 0) {
       throw new Error("UserId is not a number");
-    } else if (bals == null || bals == "" || bals.trim() == 0) {
+    } else if (bals == null || bals == "") {
       throw new Error("Balance cannot be empty");
     } else if (bals <= 0 || bals.trim() == 0) {
       throw new Error("Invalid Balance Amount");
