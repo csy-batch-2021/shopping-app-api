@@ -1,7 +1,6 @@
 const { UserValidator } = require("../validator/user.validator");
 const { UserDAO } = require("../dao/user.dao");
 const bcrypt = require("bcrypt");
-const validator = require("email-validator");
 
 class UserService {
   constructor() {
@@ -78,7 +77,7 @@ class UserService {
 
   static async addBalance(bals, id) {
     try {
-      await UserValidator.balanceValidator1(bals, id);
+      await UserValidator.balanceValidator(bals, id);
       let wallet = await UserDAO.findWalletUserId(id);
       if (!wallet) {
         throw new Error("User Id Not Found");
@@ -94,11 +93,10 @@ class UserService {
 
   static async registerUser(user) {
     try {
+      // await UserValidator.emailValidator(email);
       await UserValidator.validateNewUser(user);
-      let email = validator.validate(user.email);
-      await UserValidator.nameValidator(user.name);
-      await UserValidator.emailValidator(email);
-      await UserValidator.passwordValidator(user.password);
+      // await UserValidator.nameValidator(user.name);
+      // await UserValidator.passwordValidator(user.password);
       let exists = await UserDAO.findByEmail(user.email);
       if (exists) {
         throw new Error("Mail Already exists");
@@ -145,7 +143,7 @@ class UserService {
       // console.log(updateUserPassword, "passs")
       console.log(oldPassword, newPassword);
       await UserValidator.updatePasswordValid(oldPassword, newPassword);
-      await UserValidator.passwordValidator(newPassword);
+      // await UserValidator.passwordValidator(newPassword);
       let isUserIdExists = await UserDAO.findOne(userId);
       await UserValidator.isUserExists(isUserIdExists);
       let hashPassword = await bcrypt.compare(
