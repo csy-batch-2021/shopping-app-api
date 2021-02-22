@@ -62,12 +62,12 @@
             // const productSearchAPI = new ProductSearchAPI();
             // let url = "https://shopping-app-rest-api.herokuapp.com/activeproducts ";
 
-            // let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER "));
-            // let userId = loggedInUser.id;
-            let userId = 1;
+            let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+            let userId = loggedInUser.id;
+            // let userId = 1;
             // let url = "http://localhost:3000/api/getAllProducts ";
             getProgressProductCount()
-            let url = "https://shopping-app-rest-api.herokuapp.com/api/getAllProducts ";
+            let url = "https://shopping-app-rest-api.herokuapp.com/api/getAllProducts";
             axios.get(url).then(response => {
                 // console.table(response.data);
                 displayProducts(response.data);
@@ -98,7 +98,7 @@
         //Display the product details  in a table
         function displayProducts(products) {
 
-            const tbody = document.querySelector("#products-tbl ");
+            const tbody = document.querySelector("#products-tbl");
             tbody.innerHTML = "";
             let content = "";
             let i = 1;
@@ -115,10 +115,10 @@
     <td>${p.rating != null ? p.rating : ""}</td>
     <td>Rs.${p.price}</td><td>`
                     if (p.active == 0) {
-                        temp += `<button  type = "button " onClick="changeStatus(${p.id},true)" id ="product-btn1" data-product-id=${p.id}>Enable</button>`
+                        temp += `<button  type = "button" onClick="changeStatus(${p.id},true)" id="product-btn1" data-product-id=${p.id}>Enable</button>`
                     }
                     if (p.active == 1) {
-                        temp += `<button type = "button " onClick="changeStatus(${p.id},false)" id = "product-btn1" data-product-id=${p.id}>Disable</button>`
+                        temp += `<button type = "button" onClick="changeStatus(${p.id},false)" id ="product-btn1" data-product-id=${p.id}>Disable</button>`
                     }
 
                     temp += `</td></tr >`;
@@ -147,23 +147,23 @@
 
         function changeStatus(productId, status) {
 
-            // console.log("change in active status ", productId, status);
+            console.log("change in active status ", productId, status);
 
             if (confirm('Do you want to Change this Product Status?')) {
 
-                let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER "));
+                let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
                 let userId = loggedInUser.id;
                 let productDetails = { productId: productId, status: status, loggedInUserId: userId };
                 // console.log("productDetails ", productDetails);
                 // let url = "http://localhost:3000/api/changeProductStatus ";
-                let url = "https://shopping-app-rest-api.herokuapp.com/api/changeProductStatus ";
+                let url = "https://shopping-app-rest-api.herokuapp.com/api/changeProductStatus";
 
 
                 axios.post(url, productDetails).then(response => {
                     // productOrderAPI.orderProduct(orderObj).then(response => {
                     console.log(response);
                     // document.getElementById("errorMessage ").innerHTML = response.data;
-                    toastr.success("Product Status Changed ");
+                    toastr.success("Product Status Changed");
                     loadProducts();
                     // window.location.href = "allproducts ";
 
