@@ -132,9 +132,9 @@ class UserValidator {
   static async updatePasswordValid(oldPassword, newPassword) {
     if (oldPassword == null || oldPassword == "" || oldPassword.trim() == 0) {
       throw new Error("oldPassword cannot be empty");
-    } else if (newPassword == null || newPassword == "" || newPassword.trim() == 0) {
+    } else if (newPassword == null || newPassword == "") {
       throw new Error("New Password cannot be empty");
-    } else if (newPassword.length < 8) {
+    } else if (newPassword.length < 8 || newPassword.trim() == 0) {
       throw new Error("password length should be at least 8 characters");
     }
     let regularExpressionPassword = /^[a-zA-Z0-9]+$/;
