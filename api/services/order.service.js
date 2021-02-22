@@ -32,12 +32,12 @@ class OrderService {
       await OrderValidator.isValidId(orderDetails);
       const product = await ProductDAO.findOne(orderDetails.productId);
       orderDetails.totalAmount = orderDetails.qty * product.price;
-      await OrderValidator.toCheckWalletBalance(orderDetails);
       orderDetails.status = "ORDERED";
       orderDetails.created_date = new Date();
       orderDetails.modified_date = new Date();
       orderDetails.created_by = orderDetails.userId;
       orderDetails.modified_by = orderDetails.userId;
+      await OrderValidator.toCheckWalletBalance(orderDetails);
       console.log("orderDetails", orderDetails);
       await OrderDAO.save(orderDetails);
       return "Product Ordered sucessfully";
@@ -60,6 +60,34 @@ class OrderService {
     }
   }
 
+
+  static async myOrderStatusCount(userId) {
+    try {
+      let orderValues = await OrderDAO.myOrdersStatusCount(userId);
+      return orderValues;
+    } catch (err) {
+      throw new Error("Not able to fetch the orders");
+    }
+  }
+  static async orderReport() {
+    try {
+      let reportValues = await OrderDAO.orderReport();
+      // console.log("reportValues", reportValues);
+      return reportValues;
+    } catch (err) {
+      throw new Error("Not able to fetch the Report");
+    }
+  }
+  static async orderStatusReport() {
+    try {
+      let reportValues = await OrderDAO.orderStatusReport();
+      // console.log("reportValues", reportValues);
+      return reportValues;
+    } catch (err) {
+      throw new Error("Not able to fetch the Report");
+    }
+  }
+
   // to cancel order
   static async cancelOrder(orderDetails) {
     try {
@@ -68,11 +96,12 @@ class OrderService {
       let userId = orderDetails.userId;
       let orderId = orderDetails.orderId;
       await UserValidator.toCheckValidUserId(userId);
-
       // // await OrderValidator.isValidCheck(orderId);
       await OrderValidator.isExistOrderId(orderId);
       var result = await OrderDAO.cancelOrder(orderDetails);
+      await OrderValidator.walletBalanceRefund(orderDetails);
       console.log(result);
+      return "Your Amount Has Successfully Refunded To Your Wallet"
     } catch (err) {
       console.log(err);
       throw err;
