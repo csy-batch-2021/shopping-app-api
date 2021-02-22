@@ -29,17 +29,6 @@ class ProductService {
     }
   }
 
-  static async getProductCount() {
-    try {
-      var result = await ProductDAO.getProductProgressCount();
-      return result;
-    } catch (err) {
-      console.log(err.message);
-      throw err;
-    }
-  }
-
-
   // to find active Products
   static async getActiveProduct() {
     try {
@@ -53,11 +42,15 @@ class ProductService {
   // to add a new product
   static async addProducts(product) {
     try {
+
+
       await UserValidator.toCheckValidUserId(product.userId);
       var userResult = await UserDAO.findOne(product.userId);
 
       console.log("userResult", userResult.role);
       if (userResult.role == "ADMIN") {
+        await UserValidator.nameValidator(product.name);
+        await UserValidator.nameValidator(product.brandName);
         ProductValidator.validateNewProduct(product); //to check validate the products details
         let exists = await ProductDAO.findOneUsingName(product); //to find and if same product and brandname product is there in db
 
@@ -175,15 +168,5 @@ class ProductService {
       throw err;
     }
   }
-  static async productReport() {
-    try {
-      let productReport = await ProductDAO.productReport();
-      // console.log(productReport);
-      return productReport;
-    } catch (err) {
-      throw new Error("Not able to fetch product report");
-    }
-  }
-
 }
 exports.ProductService = ProductService;
