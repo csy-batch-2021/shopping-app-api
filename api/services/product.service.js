@@ -29,6 +29,17 @@ class ProductService {
     }
   }
 
+  static async getProductCount() {
+    try {
+      var result = await ProductDAO.getProductProgressCount();
+      return result;
+    } catch (err) {
+      console.log(err.message);
+      throw err;
+    }
+  }
+
+
   // to find active Products
   static async getActiveProduct() {
     try {
@@ -164,5 +175,15 @@ class ProductService {
       throw err;
     }
   }
+  static async productReport() {
+    try {
+      let productReport = await ProductDAO.productReport();
+      // console.log(productReport);
+      return productReport;
+    } catch (err) {
+      throw new Error("Not able to fetch product report");
+    }
+  }
+
 }
 exports.ProductService = ProductService;
