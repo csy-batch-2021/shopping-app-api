@@ -56,6 +56,16 @@ class ProductDAO {
     const result = await pool.query(sql, params);
     return result[0].affectedRows;
   }
+
+  static async getProductProgressCount() {
+    const result = await pool.query("select * ,count(*)as count from orders o ,products p  where p.id=o.product_id group by status");
+    return result[0];
+  }
+
+  static async productReport() {
+    const result = await pool.query("select * ,count(*)as count from orders o ,products p  where p.id=o.product_id group by p.id");
+    return result[0];
+  }
 }
 
 exports.ProductDAO = ProductDAO;

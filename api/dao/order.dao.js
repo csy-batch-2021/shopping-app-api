@@ -45,6 +45,24 @@ class OrderDAO {
     return result[0].affectedRows;
   }
 
+  static async myOrdersStatusCount(userId) {
+    const result = await pool.query(
+      "select status,count(*) as count from users u, products p,orders o where o.user_id=u.id AND o.product_id=p.id AND o.user_id=? group by status",
+      [userId]
+    );
+    return result[0];
+
+  }
+
+  static async orderReport() {
+    const result = await pool.query("select  *,count(*)as countValues,sum(o.total_amount)as total from orders o,users u ,products p where  p.id=o.product_id and u.id=o.user_id group by o.user_id");
+    return result[0];
+  }
+
+  static async orderStatusReport() {
+    const result = await pool.query("select  status,count(*)as count from orders group by status");
+    return result[0];
+  }
   static async save(orders) {
     let params = [
       orders.userId,
