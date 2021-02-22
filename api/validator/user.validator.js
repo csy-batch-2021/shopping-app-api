@@ -130,16 +130,18 @@ class UserValidator {
   }
 
   static async updatePasswordValid(oldPassword, newPassword) {
-    if (oldPassword == null || oldPassword == "" || oldPassword.trim() == 0) {
+    if (oldPassword == null || oldPassword == "") {
       throw new Error("oldPassword cannot be empty");
+    } else if (oldPassword.trim() == 0) {
+      throw new Error("Password Should Contain Alphanumeric Characters Only");
     } else if (newPassword == null || newPassword == "") {
       throw new Error("New Password cannot be empty");
-    } else if (newPassword.length < 8 || newPassword.trim() == 0) {
-      throw new Error("password length should be at least 8 characters");
+    } else if (newPassword.length < 8) {
+      throw new Error("New password length should be at least 8 characters");
     }
     let regularExpressionPassword = /^[a-zA-Z0-9]+$/;
     let passwordValid = regularExpressionPassword.test(newPassword);
-    if (passwordValid == false) {
+    if (passwordValid == false || newPassword.trim() == 0) {
       throw new Error("New Password Should Contain Alphanumeric Characters Only");
     }
     // else if (userId == null || userId == '') {
