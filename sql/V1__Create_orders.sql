@@ -10,6 +10,10 @@ unique (user_id),
 foreign key (user_id) references users(id),
 CHECK(balance >= 0));
 
+create table transactions (id int(10) auto_increment,user_id int(10) not null, qty int(10) not null,transactions int(10) not null,transaction_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+primary key (id),
+foreign key (user_id) references users(id));
+
 create table products ( 
  id int(10) auto_increment , name varchar(50) not null, brand_name varchar(50) not null, ram int(10) not null, price int(10) not null, active int(2) not null, created_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, modified_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, created_by int not null, modified_by int not null,
 primary key (id),
