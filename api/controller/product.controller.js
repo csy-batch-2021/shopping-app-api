@@ -53,6 +53,26 @@ class ProductController {
     }
   }
 
+  async getProgressProductCount(req, res) {
+    try {
+      let products = await ProductService.getProductCount();
+      res.json(products);
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ message: err.message });
+    }
+  }
+  async productReport(req, res) {
+    try {
+      let products = await ProductService.productReport();
+      res.json(products);
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ message: err.message });
+    }
+  }
+
+
   async changeProductStatus(req, res) {
     let productId = req.body.productId;
     let status = req.body.status;
