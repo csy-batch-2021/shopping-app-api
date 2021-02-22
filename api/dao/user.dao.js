@@ -1,7 +1,7 @@
 const pool = require("../../config/db");
 
 class UserDAO {
-  constructor() {}
+  constructor() { }
 
   static async findAll() {
     const result = await pool.query("select * from users");
@@ -32,6 +32,30 @@ class UserDAO {
     return result[0];
   }
 
+  static async deleteRefund(id) {
+    const result = await pool.query("delete from transactions where id =?", [id]);
+    return result[0];
+  }
+
+  static async refundWallet(updateBalances, transactionUserId) {
+    let params = [updateBalances, transactionUserId]
+    const sql = "update wallet set balance =? where user_id =?";
+    const result = await pool.query(sql, params);
+    return result[0];
+  }
+
+  static async allTransactions(cancelledDate) {
+    const result = await pool.query("select * from transactions where transaction_date =?", [cancelledDate]);
+    return result[0][0];
+  }
+
+  static async transactionList(userId, qty, transaction, transaction_date) {
+    let params = [userId, qty, transaction, transaction_date];
+    const sql = "insert into transactions(user_id,qty,transactions,transaction_date) values (?,?,?,?)";
+    const result = await pool.query(sql, params);
+    return result[0];
+  }
+
   static async findWalletUserId(id) {
     const result = await pool.query("select * from wallet where user_id=?", [
       id,
@@ -41,7 +65,7 @@ class UserDAO {
 
   static async userFullList() {
     const result = await pool.query(
-      "select w.user_id,user_name,email,role,balance from users u join wallet w on (w.id = u.id)"
+      "select u.id,user_name,email,role,balance from users u right join wallet w on (u.id = w.user_id)"
     );
     return result[0];
   }
@@ -80,5 +104,11 @@ class UserDAO {
     const result = await pool.query(sql, [status, id]);
     return result[0].affectedRows;
   }
+
+  static async userReport() {
+    const result = await pool.query("select u.user_name,count(*)as countValues,sum(o.total_amount)as total from orders o,users u  where  u.id=o.user_id group by u.id");
+    return result[0];
+  }
+
 }
 exports.UserDAO = UserDAO;
