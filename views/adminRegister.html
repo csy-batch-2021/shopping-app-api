@@ -84,7 +84,7 @@
             axios.post(url, userDetails).then(response => {
                 let registerData = response;
                 // document.querySelector("#message").innerHTML = "User Added Successfully";
-                toastr.success("Successfully LoggedIn");
+                toastr.success("Successfully Registered");
                 if (registerData) {
                     window.location.href = "login";
                 }

@@ -81,7 +81,6 @@
             let user = { email: email, password: password, role: role };
 
             let url = "https://shopping-app-rest-api.herokuapp.com/api/userLogin";
-            //let url = "/api/login"
             // let url = "http://localhost:3000/api/userLogin";
 
             axios.post(url, user).then(response => {
