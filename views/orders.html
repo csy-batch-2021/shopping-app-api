@@ -188,6 +188,7 @@
                     // document.getElementById("errorMessage").innerHTML = response.data;
                     toastr.success("Order Cancelled Success");
                     loadProducts();
+                    loadWalletBalance();
                     // window.location.href = "orders.html";
 
                 }).catch(err => {
@@ -197,10 +198,23 @@
                 });
 
 
-
             } else {
                 // Do nothing!
                 console.log('Thing was not saved to the database.');
+            }
+        }
+
+        function loadWalletBalance() {
+            let loggedInUser = JSON.parse(localStorage.getItem("LOGGED_IN_USER"));
+            if (loggedInUser) {
+
+                let userId = { loggedInUserId: loggedInUser.id }
+                let url = "https://shopping-app-rest-api.herokuapp.com/api/walletBalance";
+                // let url = "http://localhost:3000/api/walletBalance";
+                axios.put(url, userId).then(response => {
+                    let walletBalance = response.data.balance;
+                    document.querySelector("#wallet").innerHTML += "Rs." + walletBalance;
+                });
             }
         }
 
