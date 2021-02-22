@@ -76,7 +76,6 @@ class OrderValidator {
   static async isExistOrderId(orderId) {
     // console.log("orderId", orderId);
     var result = await OrderDAO.findOne(orderId);
-    // console.log(result.status);
     if (!result) {
       throw new Error("Please Entered Valid OrderId");
     } else if (result.status == "DELIVERED") {
@@ -94,12 +93,29 @@ class OrderValidator {
 
   static async toCheckWalletBalance(orderDetails) {
     let wallet = await UserDAO.findWalletUserId(orderDetails.userId);
-    if (wallet.balance <= orderDetails.totalAmount) {
+    if (wallet.balance < orderDetails.totalAmount) {
       throw new Error("insufficient Wallet Balance");
     } else {
       let updateWalletbals = wallet.balance - orderDetails.totalAmount;
+      await UserDAO.transactionList(orderDetails.userId, orderDetails.qty, -orderDetails.totalAmount, orderDetails.created_date);
       await UserDAO.addWalletBalance(updateWalletbals, orderDetails.userId);
     }
   }
+
+  static async walletBalanceRefund(orderDetails) {
+
+    let cancelledList = await OrderDAO.findOne(orderDetails.orderId);
+    let cancelledDate = cancelledList.created_date;
+    let transactionList = await UserDAO.allTransactions(cancelledDate);
+    let transactionAmount = transactionList.transactions;
+    let transactionAmount1 = Math.abs(transactionAmount);
+    let transactionId = transactionList.id;
+    let transactionUserId = transactionList.user_id;
+    let existingBalance = await UserDAO.findWalletUserId(transactionUserId);
+    let updateBalances = existingBalance.balance + transactionAmount1;
+    await UserDAO.refundWallet(updateBalances, transactionUserId);
+    await UserDAO.deleteRefund(transactionId);
+  }
+
 }
 exports.OrderValidator = OrderValidator;

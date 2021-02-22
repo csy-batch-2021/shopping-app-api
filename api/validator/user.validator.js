@@ -51,6 +51,9 @@ class UserValidator {
     if (bals <= 0) {
       throw new Error("Invalid Balance Amount");
     }
+    else if (bals >= 90000) {
+      throw new Error("Add Below RS.90000")
+    }
   }
 
   static async passwordValidator(password) {
