@@ -101,8 +101,8 @@
 
         function displayOrderStatusCount(orderDetails) {
             console.log("orderDetails", orderDetails);
-            
-            
+
+
             let map = {};
             orderDetails.forEach(o => {
                 console.log(o);
@@ -110,8 +110,8 @@
             });
             console.log("map", map);
 
-            document.querySelector("#deliveredCount").innerHTML = map["ORDERED"] ? map["ORDERED"] : 0;
-            document.querySelector("#orderedCount").innerHTML = map["DELIVERED"] ? map["DELIVERED"] : 0;
+            document.querySelector("#orderedCount").innerHTML = map["ORDERED"] ? map["ORDERED"] : 0;
+            document.querySelector("#deliveredCount").innerHTML = map["DELIVERED"] ? map["DELIVERED"] : 0;
             document.querySelector("#cancelledCount").innerHTML = map["CANCELLED"] ? map["CANCELLED"] : 0;
 
 
