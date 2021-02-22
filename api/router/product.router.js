@@ -37,6 +37,10 @@ class ProductRouter {
       if (method == "POST") {
         await productController.addProductRating(req, res);
       }
+    } else if (url == "productReport") {
+      if (method == "GET") {
+        await productController.productReport(req, res);
+      }
     }
   }
 }

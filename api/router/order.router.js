@@ -3,7 +3,7 @@ const { OrderController } = require("./order.controller");
 const orderController = new OrderController();
 
 class OrderRouter {
-  constructor() {}
+  constructor() { }
 
   async sendRequest(url, method, req, res) {
     if (url == "orders") {
@@ -28,6 +28,21 @@ class OrderRouter {
         await orderController.changOrderStatus(req, res);
       }
     }
+    else if (url == "orderStatusCount") {
+      if (method == "GET") {
+        await orderController.myOrdersCount(req, res);
+      }
+    } else if (url == "orderReport") {
+      if (method == "GET") {
+        await orderController.orderReport(req, res);
+      }
+    } else if (url == "orderStatusReport") {
+      if (method == "GET") {
+        await orderController.orderStatusReport(req, res);
+      }
+    }
+
+
   }
 }
 
