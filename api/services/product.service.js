@@ -52,8 +52,7 @@ class ProductService {
 
         ProductValidator.validateNewProduct(product); //to check validate the products details
         let exists = await ProductDAO.findOneUsingName(product); //to find and if same product and brandname product is there in db
-        await UserValidator.nameValidator(product.name);
-        await UserValidator.nameValidator(product.brandName);
+  
         if (exists) {
           throw new Error("This Product already Exists in the given brand");
         }
