@@ -138,6 +138,18 @@ class ProductService {
   //     throw err;
   //   }
   // }
+  
+  
+    static async productReport() {
+    try {
+      var productResult = await ProductDAO.productReport();
+      return productResult;
+    } catch (err) {
+      throw new Error("Not able to fetch Product Report");
+    }
+
+  }
+
 
   // too change the product status active and inactive
   static async changeStatus(productId, status) {
