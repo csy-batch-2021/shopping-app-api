@@ -1,6 +1,25 @@
 # shopping-app-api
-- [ ] User Register & Login 
-- [ ] Admin  Register & Login
+
+#### Authentication Module
+
+- [ ] User Login 
+- [ ] Admin Login
+- [ ] Add Wallet and Users List Only Admin Can Access
+
+#### Users Module
+
+- [ ] User Register 
+- [ ] Admin Register
+- [ ] Change Password
+- [ ] Users List (ADMIN)
+
+#### Wallet
+
+- [ ] Add Wallet Balance
+- [ ] Transaction List
+- [ ] Wallet Balance Refund
+- [ ] Wallet History
+
 - [x] Add Products
 - [x] Change Product Status (Active & Inactive)
 - [x] Place Order
