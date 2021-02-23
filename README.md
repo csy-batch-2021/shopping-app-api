@@ -2,22 +2,22 @@
 
 #### Authentication Module
 
-- [ ] User Login 
-- [ ] Admin Login
-- [ ] Add Wallet and Users List Only Admin Can Access
+- [x] User Login 
+- [x] Admin Login
+- [x] Add Wallet and Users List Only Admin Can Access
 
 #### Users Module
 
-- [ ] User Register 
-- [ ] Admin Register
-- [ ] Change Password
-- [ ] Users List (ADMIN)
+- [x] User Register 
+- [x] Admin Register
+- [x] Change Password
+- [x] Users List (ADMIN)
 
 #### Wallet
 
-- [ ] Add Wallet Balance
-- [ ] Transaction List
-- [ ] Wallet Balance Refund
+- [x] Add Wallet Balance
+- [x] Transaction List
+- [x] Wallet Balance Refund
 - [ ] Wallet History
 
 - [x] Add Products
