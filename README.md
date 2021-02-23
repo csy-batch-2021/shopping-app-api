@@ -4,7 +4,7 @@
 
 - [x] User Login 
 - [x] Admin Login
-- [x] Add Wallet and Users List Only Admin Can Access
+- [x] Add Wallet Balance and Users List Only Admin Can Access
 
 #### Users Module
 
@@ -12,6 +12,7 @@
 - [x] Admin Register
 - [x] Change Password
 - [x] Users List (ADMIN)
+- [x] Users Active Inactive // Api
 
 #### Wallet
 
